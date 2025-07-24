@@ -1,0 +1,68 @@
+{
+  "blue_bans": [
+    "Jayce",
+    "Miss Fortune",
+    "Yasuo",
+    "Karma",
+    "Rumble"
+  ],
+  "blue_picks": [
+    "Jax",
+    "Maokai",
+    "Corki",
+    "Varus",
+    "Alistar"
+  ],
+  "red_bans": [
+    "Azir",
+    "Twisted Fate",
+    "Pantheon",
+    "Tristana",
+    "Hwei"
+  ],
+  "red_picks": [
+    "KSante",
+    "Wukong",
+    "Ryze",
+    "Ezreal",
+    "Rell"
+  ],
+  "gold_diff": [
+    0,
+    2,
+    10,
+    -57,
+    -236,
+    -11,
+    439,
+    -85,
+    241,
+    -64,
+    -128,
+    -160,
+    295,
+    668,
+    1197,
+    2014,
+    1284,
+    590,
+    971,
+    1105,
+    1406,
+    2900,
+    2947,
+    3586,
+    3572,
+    4018,
+    4599,
+    6648,
+    7036,
+    7114,
+    7346,
+    7729,
+    7620,
+    9312,
+    10769,
+    11957
+  ]
+}

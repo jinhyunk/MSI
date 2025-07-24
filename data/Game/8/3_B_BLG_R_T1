@@ -1,0 +1,67 @@
+{
+  "blue_bans": [
+    "Azir",
+    "Twisted Fate",
+    "Nocturne",
+    "Sylas",
+    "TahmKench"
+  ],
+  "blue_picks": [
+    "Ambessa",
+    "Vi",
+    "Ahri",
+    "Xayah",
+    "Gragas"
+  ],
+  "red_bans": [
+    "Gwen",
+    "Miss Fortune",
+    "Aurora",
+    "Rakan",
+    "Nautilus"
+  ],
+  "red_picks": [
+    "Renekton",
+    "Skarner",
+    "Ryze",
+    "Varus",
+    "Alistar"
+  ],
+  "gold_diff": [
+    0,
+    0,
+    264,
+    239,
+    60,
+    -283,
+    148,
+    -73,
+    -20,
+    -48,
+    -25,
+    -17,
+    272,
+    584,
+    949,
+    252,
+    681,
+    1345,
+    -820,
+    -1140,
+    -539,
+    1219,
+    1741,
+    246,
+    1055,
+    865,
+    1244,
+    -3566,
+    -3334,
+    -3767,
+    -3938,
+    -3978,
+    -3994,
+    -5789,
+    -6623
+  ]
+}

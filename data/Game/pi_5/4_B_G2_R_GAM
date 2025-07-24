@@ -1,0 +1,66 @@
+{
+  "blue_bans": [
+    "Nocturne",
+    "Rumble",
+    "Gwen",
+    "Yone",
+    "Bard"
+  ],
+  "blue_picks": [
+    "Chogath",
+    "Naafiri",
+    "Twisted Fate",
+    "Kaisa",
+    "Leona"
+  ],
+  "red_bans": [
+    "Azir",
+    "Maokai",
+    "Draven",
+    "Aatrox",
+    "Orianna"
+  ],
+  "red_picks": [
+    "Sion",
+    "Lillia",
+    "Sylas",
+    "Caitlyn",
+    "Galio"
+  ],
+  "gold_diff": [
+    0,
+    0,
+    90,
+    -413,
+    -318,
+    -325,
+    -246,
+    156,
+    125,
+    -431,
+    -349,
+    -1249,
+    -1228,
+    -2319,
+    -2815,
+    -3054,
+    -3328,
+    -3652,
+    -2225,
+    -2101,
+    -2351,
+    -2036,
+    -1130,
+    -1677,
+    -2249,
+    -3036,
+    -2979,
+    -4066,
+    -3964,
+    -3168,
+    -3532,
+    -3837,
+    -6250,
+    -8620
+  ]
+}

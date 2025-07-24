@@ -1,0 +1,70 @@
+{
+    "blue_bans": [
+        "Varus",
+        "Gwen",
+        "Twisted Fate",
+        "Kalista",
+        "Lucian"
+    ],
+    "blue_picks": [
+        "Sion",
+        "Pantheon",
+        "Viktor",
+        "Ezreal",
+        "Leona"
+    ],
+    "red_bans": [
+        "Taliyah",
+        "Azir",
+        "Xayah",
+        "Rell",
+        "Alistar"
+    ],
+    "red_picks": [
+        "Aatrox",
+        "Xin Zhao",
+        "Annie",
+        "Corki",
+        "Neeko"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        -55,
+        313,
+        280,
+        350,
+        -242,
+        335,
+        675,
+        960,
+        937,
+        927,
+        881,
+        818,
+        286,
+        -389,
+        -419,
+        -183,
+        -474,
+        -1744,
+        -1244,
+        -2396,
+        -2592,
+        -3150,
+        -3038,
+        -2694,
+        1422,
+        2113,
+        182,
+        -3449,
+        -2647,
+        -5212,
+        -5245,
+        -5107,
+        -5626,
+        -6141,
+        -9276,
+        -12440
+    ]
+}

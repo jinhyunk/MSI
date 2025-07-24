@@ -1,0 +1,65 @@
+{
+  "blue_bans": [
+    "Miss Fortune",
+    "Gwen",
+    "Senna",
+    "Aurora",
+    "Sylas"
+  ],
+  "blue_picks": [
+    "Renekton",
+    "Naafiri",
+    "Neeko",
+    "Kalista",
+    "Blitzcrank"
+  ],
+  "red_bans": [
+    "Twisted Fate",
+    "Azir",
+    "Dr. Mundo",
+    "Galio",
+    "Cassiopeia"
+  ],
+  "red_picks": [
+    "Sion",
+    "Nocturne",
+    "Akali",
+    "Ashe",
+    "Seraphine"
+  ],
+  "gold_diff": [
+    0,
+    0,
+    -66,
+    48,
+    58,
+    105,
+    -250,
+    380,
+    -249,
+    -1053,
+    -1059,
+    -886,
+    -1865,
+    -1706,
+    -2335,
+    -2338,
+    -2305,
+    -2900,
+    -3193,
+    -3742,
+    -4624,
+    -5064,
+    -3564,
+    -4371,
+    -4645,
+    -4654,
+    -4984,
+    -4759,
+    -6521,
+    -7414,
+    -6620,
+    -8228,
+    -10085
+  ]
+}

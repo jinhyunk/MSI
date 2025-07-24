@@ -1,0 +1,62 @@
+{
+  "blue_bans": [
+    "Nocturne",
+    "Rumble",
+    "Gwen",
+    "Jayce",
+    "Nautilus"
+  ],
+  "blue_picks": [
+    "Renekton",
+    "Trundle",
+    "Syndra",
+    "Varus",
+    "Alistar"
+  ],
+  "red_bans": [
+    "Pantheon",
+    "Maokai",
+    "Twisted Fate",
+    "Sion",
+    "Jax"
+  ],
+  "red_picks": [
+    "Gnar",
+    "Xin Zhao",
+    "Taliyah",
+    "Jhin",
+    "Rell"
+  ],
+  "gold_diff": [
+    0,
+    0,
+    11,
+    75,
+    245,
+    317,
+    1064,
+    577,
+    -20,
+    81,
+    -4,
+    -495,
+    -971,
+    -687,
+    -862,
+    -648,
+    -585,
+    222,
+    548,
+    758,
+    1144,
+    1326,
+    916,
+    472,
+    2029,
+    1345,
+    1852,
+    1920,
+    1847,
+    7076
+  ]
+}

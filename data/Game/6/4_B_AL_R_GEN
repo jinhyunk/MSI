@@ -1,0 +1,64 @@
+{
+  "blue_bans": [
+    "Skarner",
+    "Renekton",
+    "Jayce",
+    "Nidalee",
+    "Lee Sin"
+  ],
+  "blue_picks": [
+    "Smolder",
+    "Jarvan IV",
+    "Galio",
+    "Miss Fortune",
+    "Neeko"
+  ],
+  "red_bans": [
+    "Ryze",
+    "Yorick",
+    "Wukong",
+    "Camille",
+    "Zed"
+  ],
+  "red_picks": [
+    "KSante",
+    "Naafiri",
+    "Sylas",
+    "Caitlyn",
+    "Karma"
+  ],
+  "gold_diff": [
+    0,
+    -5,
+    -19,
+    70,
+    -205,
+    281,
+    121,
+    684,
+    475,
+    271,
+    151,
+    125,
+    11,
+    -131,
+    -303,
+    243,
+    512,
+    -207,
+    -199,
+    1714,
+    1558,
+    2307,
+    2354,
+    2525,
+    2160,
+    3141,
+    3764,
+    4290,
+    8088,
+    8614,
+    10567,
+    14391
+  ]
+}
