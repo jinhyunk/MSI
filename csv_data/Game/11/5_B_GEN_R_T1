@@ -1,0 +1,64 @@
+{
+    "blue_bans": [
+        "Caitlyn",
+        "Yorick",
+        "TwistedFate",
+        "Nautilus",
+        "Ziggs"
+    ],
+    "blue_picks": [
+        "Renekton",
+        "Nidalee",
+        "Aurora",
+        "Jinx",
+        "TahmKench"
+    ],
+    "red_bans": [
+        "Varus",
+        "Vi",
+        "Maokai",
+        "Leona",
+        "Blitzcrank"
+    ],
+    "red_picks": [
+        "Ambessa",
+        "LeeSin",
+        "Sylas",
+        "Draven",
+        "Pyke"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        38,
+        -8,
+        -605,
+        -252,
+        -807,
+        -973,
+        -687,
+        -1775,
+        -1578,
+        -1484,
+        -2856,
+        -2975,
+        -3132,
+        -2349,
+        -1980,
+        -2130,
+        -1829,
+        -2531,
+        -2194,
+        -1981,
+        -2228,
+        -2827,
+        -687,
+        -578,
+        2025,
+        3739,
+        4021,
+        2405,
+        2976,
+        6486
+    ]
+}

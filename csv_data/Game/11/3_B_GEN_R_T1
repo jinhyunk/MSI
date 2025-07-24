@@ -1,0 +1,70 @@
+{
+    "blue_bans": [
+        "Poppy",
+        "Trundle",
+        "Caitlyn",
+        "RenataGlasc",
+        "Corki"
+    ],
+    "blue_picks": [
+        "KSante",
+        "Pantheon",
+        "Galio",
+        "Senna",
+        "Alistar"
+    ],
+    "red_bans": [
+        "Varus",
+        "Vi",
+        "Ambessa",
+        "Nautilus",
+        "Ziggs"
+    ],
+    "red_picks": [
+        "Sion",
+        "XinZhao",
+        "Viktor",
+        "MissFortune",
+        "Bard"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        -43,
+        -160,
+        -278,
+        -537,
+        -490,
+        -45,
+        -43,
+        225,
+        18,
+        210,
+        -175,
+        -358,
+        -148,
+        -70,
+        -225,
+        -412,
+        23,
+        -661,
+        -407,
+        361,
+        698,
+        908,
+        1383,
+        2677,
+        3360,
+        3285,
+        3189,
+        3801,
+        4640,
+        7746,
+        8206,
+        10337,
+        9680,
+        9351,
+        11879,
+        13823
+    ]
+}

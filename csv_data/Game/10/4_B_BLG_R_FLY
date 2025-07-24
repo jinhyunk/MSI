@@ -1,0 +1,62 @@
+{
+    "blue_bans": [
+        "Cassiopeia",
+        "Azir",
+        "Galio",
+        "Orianna",
+        "Sylas"
+    ],
+    "blue_picks": [
+        "Yorick",
+        "Maokai",
+        "Tristana",
+        "Varus",
+        "Rakan"
+    ],
+    "red_bans": [
+        "TwistedFate",
+        "Lucian",
+        "Rumble",
+        "Syndra",
+        "Akali"
+    ],
+    "red_picks": [
+        "Sett",
+        "Trundle",
+        "Hwei",
+        "Jhin",
+        "Bard"
+    ],
+    "gold_diff": [
+        0,
+        -5,
+        -43,
+        -196,
+        -235,
+        -536,
+        -213,
+        -116,
+        -407,
+        -1351,
+        -706,
+        -360,
+        -345,
+        -592,
+        -625,
+        -992,
+        -1187,
+        -1124,
+        -3071,
+        -3320,
+        -5805,
+        -5724,
+        -5096,
+        -4918,
+        -3781,
+        -4864,
+        -5474,
+        -5859,
+        -8169,
+        -9177
+    ]
+}

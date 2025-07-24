@@ -1,0 +1,60 @@
+{
+    "blue_bans": [
+        "Taliyah",
+        "Neeko",
+        "Ryze",
+        "Poppy",
+        "Lucian"
+    ],
+    "blue_picks": [
+        "Gwen",
+        "Vi",
+        "Galio",
+        "Jhin",
+        "Nautilus"
+    ],
+    "red_bans": [
+        "Pantheon",
+        "Azir",
+        "Varus",
+        "Rakan",
+        "Alistar"
+    ],
+    "red_picks": [
+        "Jayce",
+        "Wukong",
+        "Annie",
+        "Kaisa",
+        "Rell"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        38,
+        -79,
+        -193,
+        -452,
+        -435,
+        -440,
+        -359,
+        -360,
+        -317,
+        -549,
+        -370,
+        -419,
+        622,
+        1189,
+        1911,
+        1921,
+        1864,
+        793,
+        785,
+        1070,
+        167,
+        582,
+        -213,
+        -375,
+        -410,
+        -4708
+    ]
+}

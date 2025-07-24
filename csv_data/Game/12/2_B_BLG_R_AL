@@ -1,0 +1,63 @@
+{
+    "blue_bans": [
+        "Poppy",
+        "Galio",
+        "XinZhao",
+        "Ornn",
+        "Maokai"
+    ],
+    "blue_picks": [
+        "Rumble",
+        "Nocturne",
+        "Aurora",
+        "Ezreal",
+        "Rell"
+    ],
+    "red_bans": [
+        "Pantheon",
+        "Vi",
+        "Varus",
+        "Yone",
+        "Skarner"
+    ],
+    "red_picks": [
+        "Sion",
+        "JarvanIV",
+        "Ryze",
+        "Lucian",
+        "Braum"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        -24,
+        -96,
+        -859,
+        -832,
+        -767,
+        -849,
+        -1068,
+        -1017,
+        -1267,
+        -2222,
+        -2406,
+        -2302,
+        -1992,
+        -2230,
+        -900,
+        -562,
+        -788,
+        -2334,
+        -3445,
+        -2989,
+        -2863,
+        -3031,
+        -3517,
+        -3496,
+        -3571,
+        -6185,
+        -6484,
+        -10629,
+        -10679
+    ]
+}

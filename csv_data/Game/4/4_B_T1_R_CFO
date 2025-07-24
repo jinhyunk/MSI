@@ -1,0 +1,72 @@
+{
+    "blue_bans": [
+        "Taliyah",
+        "Yorick",
+        "Ornn",
+        "Rell",
+        "Alistar"
+    ],
+    "blue_picks": [
+        "Rumble",
+        "JarvanIV",
+        "Sylas",
+        "Varus",
+        "Poppy"
+    ],
+    "red_bans": [
+        "TwistedFate",
+        "Xayah",
+        "Azir",
+        "LeeSin",
+        "Nocturne"
+    ],
+    "red_picks": [
+        "Ambessa",
+        "Skarner",
+        "Cassiopeia",
+        "Jhin",
+        "Nautilus"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        -54,
+        394,
+        770,
+        474,
+        787,
+        1060,
+        661,
+        743,
+        851,
+        946,
+        993,
+        2408,
+        2158,
+        2466,
+        4254,
+        4281,
+        4330,
+        6645,
+        6980,
+        6069,
+        4714,
+        4707,
+        4618,
+        5362,
+        5424,
+        3051,
+        956,
+        1435,
+        1317,
+        1375,
+        2425,
+        3579,
+        3683,
+        4063,
+        3705,
+        3800,
+        8255,
+        8256
+    ]
+}

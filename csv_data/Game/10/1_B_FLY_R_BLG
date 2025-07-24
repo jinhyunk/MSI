@@ -1,0 +1,70 @@
+{
+    "blue_bans": [
+        "Yone",
+        "TwistedFate",
+        "Vi",
+        "Gwen",
+        "Ambessa"
+    ],
+    "blue_picks": [
+        "Aatrox",
+        "Sejuani",
+        "Taliyah",
+        "Ezreal",
+        "Karma"
+    ],
+    "red_bans": [
+        "Pantheon",
+        "Varus",
+        "Renekton",
+        "Trundle",
+        "Wukong"
+    ],
+    "red_picks": [
+        "Sion",
+        "XinZhao",
+        "Aurora",
+        "MissFortune",
+        "Neeko"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        22,
+        -13,
+        379,
+        345,
+        858,
+        757,
+        1230,
+        133,
+        -28,
+        187,
+        459,
+        964,
+        1093,
+        994,
+        -378,
+        -259,
+        961,
+        984,
+        -467,
+        -160,
+        -203,
+        1789,
+        1993,
+        3067,
+        3631,
+        2643,
+        2699,
+        3909,
+        3362,
+        3752,
+        5851,
+        5683,
+        7070,
+        8638,
+        11025,
+        13024
+    ]
+}

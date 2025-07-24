@@ -1,0 +1,65 @@
+{
+    "blue_bans": [
+        "Azir",
+        "Maokai",
+        "Annie",
+        "Sion",
+        "Aurora"
+    ],
+    "blue_picks": [
+        "Jayce",
+        "Pantheon",
+        "Hwei",
+        "Corki",
+        "Nautilus"
+    ],
+    "red_bans": [
+        "Nocturne",
+        "Rumble",
+        "TwistedFate",
+        "Gwen",
+        "Viktor"
+    ],
+    "red_picks": [
+        "Gragas",
+        "Poppy",
+        "Ryze",
+        "Lucian",
+        "Braum"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        149,
+        436,
+        511,
+        1190,
+        1018,
+        1306,
+        677,
+        710,
+        1024,
+        857,
+        367,
+        -1131,
+        -153,
+        -1280,
+        -2032,
+        -1533,
+        -3167,
+        -3127,
+        -3345,
+        -3241,
+        -3804,
+        -3798,
+        -3829,
+        -4271,
+        -8204,
+        -10288,
+        -10802,
+        -8631,
+        -7370,
+        -8574,
+        -11277
+    ]
+}

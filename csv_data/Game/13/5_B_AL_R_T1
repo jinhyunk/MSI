@@ -1,0 +1,63 @@
+{
+    "blue_bans": [
+        "Nocturne",
+        "Taliyah",
+        "Caitlyn",
+        "Ahri",
+        "LeBlanc"
+    ],
+    "blue_picks": [
+        "Aatrox",
+        "Olaf",
+        "TwistedFate",
+        "Ziggs",
+        "Poppy"
+    ],
+    "red_bans": [
+        "Pantheon",
+        "Azir",
+        "Sion",
+        "Camille",
+        "Bard"
+    ],
+    "red_picks": [
+        "Gragas",
+        "Skarner",
+        "Hwei",
+        "Jinx",
+        "Alistar"
+    ],
+    "gold_diff": [
+        0,
+        -5,
+        -16,
+        39,
+        -52,
+        -89,
+        -240,
+        -59,
+        42,
+        87,
+        471,
+        89,
+        -209,
+        -890,
+        -408,
+        223,
+        -2441,
+        -2811,
+        -3465,
+        -5848,
+        -5489,
+        -5581,
+        -8782,
+        -8533,
+        -7724,
+        -7049,
+        -8824,
+        -11228,
+        -11635,
+        -13723,
+        -13972
+    ]
+}

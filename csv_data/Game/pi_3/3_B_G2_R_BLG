@@ -1,0 +1,67 @@
+{
+    "blue_bans": [
+        "Yone",
+        "Gwen",
+        "Sylas",
+        "RenataGlasc",
+        "Xayah"
+    ],
+    "blue_picks": [
+        "Olaf",
+        "Trundle",
+        "TwistedFate",
+        "Senna",
+        "Rell"
+    ],
+    "red_bans": [
+        "Maokai",
+        "Azir",
+        "Wukong",
+        "Jayce",
+        "Dr.Mundo"
+    ],
+    "red_picks": [
+        "Renekton",
+        "Poppy",
+        "Veigar",
+        "Kaisa",
+        "Rakan"
+    ],
+    "gold_diff": [
+        0,
+        -372,
+        -215,
+        70,
+        175,
+        -61,
+        208,
+        392,
+        283,
+        42,
+        -29,
+        -167,
+        576,
+        771,
+        1048,
+        538,
+        -609,
+        -1645,
+        -2469,
+        -2283,
+        -2794,
+        -2826,
+        -2618,
+        -2555,
+        -3073,
+        -4895,
+        -6480,
+        -6836,
+        -11324,
+        -11431,
+        -10984,
+        -10575,
+        -9973,
+        -12326,
+        -13254
+    ]
+}

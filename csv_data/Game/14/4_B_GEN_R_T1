@@ -1,0 +1,60 @@
+{
+    "blue_bans": [
+        "Neeko",
+        "Sylas",
+        "Yorick",
+        "Gragas",
+        "Ambessa"
+    ],
+    "blue_picks": [
+        "Jayce",
+        "Trundle",
+        "Viktor",
+        "Zeri",
+        "Rakan"
+    ],
+    "red_bans": [
+        "Pantheon",
+        "Varus",
+        "Blitzcrank",
+        "Ziggs",
+        "Lulu"
+    ],
+    "red_picks": [
+        "KSante",
+        "Skarner",
+        "Hwei",
+        "Jinx",
+        "TahmKench"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        -40,
+        361,
+        611,
+        727,
+        626,
+        513,
+        464,
+        540,
+        322,
+        574,
+        -467,
+        227,
+        261,
+        51,
+        786,
+        1324,
+        2614,
+        2964,
+        2514,
+        2499,
+        5138,
+        5401,
+        5325,
+        5392,
+        5773,
+        12097
+    ]
+}

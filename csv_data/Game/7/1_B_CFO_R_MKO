@@ -1,0 +1,71 @@
+{
+    "blue_bans": [
+        "Maokai",
+        "Varus",
+        "Vi",
+        "MissFortune",
+        "Kaisa"
+    ],
+    "blue_picks": [
+        "Sion",
+        "XinZhao",
+        "Azir",
+        "Ezreal",
+        "Leona"
+    ],
+    "red_bans": [
+        "Jax",
+        "Pantheon",
+        "Taliyah",
+        "Braum",
+        "Rakan"
+    ],
+    "red_picks": [
+        "Rumble",
+        "Trundle",
+        "Yone",
+        "Sivir",
+        "Alistar"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        144,
+        208,
+        231,
+        231,
+        550,
+        136,
+        100,
+        201,
+        238,
+        357,
+        611,
+        525,
+        632,
+        1761,
+        2202,
+        2084,
+        4109,
+        3809,
+        3797,
+        4996,
+        4871,
+        4790,
+        4462,
+        3217,
+        2523,
+        2613,
+        2627,
+        1449,
+        3052,
+        3790,
+        5816,
+        5538,
+        4716,
+        4207,
+        3745,
+        8536,
+        8587
+    ]
+}

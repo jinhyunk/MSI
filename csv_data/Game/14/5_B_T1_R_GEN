@@ -1,0 +1,69 @@
+{
+    "blue_bans": [
+        "Maokai",
+        "Neeko",
+        "Kaisa",
+        "Blitzcrank",
+        "Leona"
+    ],
+    "blue_picks": [
+        "Renekton",
+        "Viego",
+        "Ahri",
+        "Caitlyn",
+        "Karma"
+    ],
+    "red_bans": [
+        "Pantheon",
+        "Varus",
+        "LeeSin",
+        "TwistedFate",
+        "Yasuo"
+    ],
+    "red_picks": [
+        "Aatrox",
+        "Nidalee",
+        "Aurora",
+        "MissFortune",
+        "Pyke"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        -38,
+        72,
+        -89,
+        599,
+        618,
+        -437,
+        53,
+        -227,
+        416,
+        271,
+        520,
+        327,
+        535,
+        562,
+        -151,
+        -1032,
+        -1004,
+        -1481,
+        -1508,
+        -3024,
+        -3351,
+        -3477,
+        -3665,
+        -4338,
+        -4763,
+        -5726,
+        -6532,
+        -7641,
+        -7603,
+        -7892,
+        -7514,
+        -7798,
+        -9693,
+        -11700,
+        -14385
+    ]
+}

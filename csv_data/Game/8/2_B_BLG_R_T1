@@ -1,0 +1,67 @@
+{
+    "blue_bans": [
+        "Azir",
+        "TwistedFate",
+        "Galio",
+        "Rakan",
+        "Lucian"
+    ],
+    "blue_picks": [
+        "Rumble",
+        "Wukong",
+        "Annie",
+        "Ezreal",
+        "Rell"
+    ],
+    "red_bans": [
+        "Gwen",
+        "Varus",
+        "Vi",
+        "Lulu",
+        "Kaisa"
+    ],
+    "red_picks": [
+        "Ornn",
+        "XinZhao",
+        "Viktor",
+        "Caitlyn",
+        "Braum"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        -65,
+        -86,
+        -71,
+        -46,
+        125,
+        688,
+        566,
+        589,
+        1068,
+        563,
+        1849,
+        1691,
+        1414,
+        1497,
+        1362,
+        1274,
+        1053,
+        1648,
+        1901,
+        2118,
+        2118,
+        2552,
+        2420,
+        1563,
+        1850,
+        1730,
+        -253,
+        -377,
+        -2736,
+        -2774,
+        -4903,
+        -6428,
+        -8130
+    ]
+}

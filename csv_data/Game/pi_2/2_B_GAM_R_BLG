@@ -1,0 +1,65 @@
+{
+    "blue_bans": [
+        "Kalista",
+        "TwistedFate",
+        "Pantheon",
+        "Xayah",
+        "Kaisa"
+    ],
+    "blue_picks": [
+        "Sion",
+        "Vi",
+        "Ahri",
+        "Tristana",
+        "Rakan"
+    ],
+    "red_bans": [
+        "Nocturne",
+        "Gwen",
+        "Aurora",
+        "MissFortune",
+        "Zeri"
+    ],
+    "red_picks": [
+        "Aatrox",
+        "Wukong",
+        "Annie",
+        "Ezreal",
+        "Rell"
+    ],
+    "gold_diff": [
+        0,
+        -20,
+        -142,
+        -175,
+        -61,
+        181,
+        431,
+        669,
+        1030,
+        881,
+        1043,
+        1487,
+        1777,
+        1749,
+        1943,
+        462,
+        288,
+        167,
+        214,
+        -256,
+        1298,
+        1003,
+        -425,
+        -488,
+        -2652,
+        -2440,
+        -2503,
+        -3100,
+        -5425,
+        -6736,
+        -7668,
+        -10209,
+        -11041
+    ]
+}

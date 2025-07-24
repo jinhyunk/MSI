@@ -1,0 +1,63 @@
+{
+    "blue_bans": [
+        "Caitlyn",
+        "Viktor",
+        "Sion",
+        "Draven",
+        "Leona"
+    ],
+    "blue_picks": [
+        "Jayce",
+        "Maokai",
+        "Sylas",
+        "Jinx",
+        "Blitzcrank"
+    ],
+    "red_bans": [
+        "Vi",
+        "Pantheon",
+        "Varus",
+        "TahmKench",
+        "Sejuani"
+    ],
+    "red_picks": [
+        "KSante",
+        "JarvanIV",
+        "Aurora",
+        "Sivir",
+        "Thresh"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        37,
+        -87,
+        -448,
+        -109,
+        -121,
+        -863,
+        -561,
+        -646,
+        -508,
+        -267,
+        -709,
+        -701,
+        -928,
+        -147,
+        -989,
+        -785,
+        -869,
+        -523,
+        135,
+        -196,
+        -506,
+        -533,
+        -579,
+        926,
+        1329,
+        4373,
+        5727,
+        9247,
+        12115
+    ]
+}

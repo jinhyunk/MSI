@@ -1,0 +1,285 @@
+Champion champion Game
+
+Win rate
+Kda
+
+Azir Azir	98	
+ 	 
+69.4%
+4.3
+Corki Corki	64	
+ 	 
+78.1%
+6.2
+Sylas Sylas	60	
+ 	 
+73.3%
+5.5
+Ahri Ahri	54	
+ 	 
+77.8%
+10.3
+Zoe Zoe	43	
+ 	 
+65.1%
+8.6
+LeBlanc LeBlanc	40	
+ 	 
+62.5%
+6.5
+Galio Galio	39	
+ 	 
+71.8%
+9.6
+Orianna Orianna	33	
+ 	 
+57.6%
+6.5
+Ryze Ryze	32	
+ 	 
+53.1%
+4.3
+Akali Akali	32	
+ 	 
+71.9%
+8.3
+Yone Yone	32	
+ 	 
+81.3%
+5.9
+Viktor Viktor	29	
+ 	 
+58.6%
+5.4
+Tristana Tristana	25	
+ 	 
+76%
+5.7
+Irelia Irelia	24	
+ 	 
+50%
+3.3
+Taliyah Taliyah	23	
+ 	 
+82.6%
+7.8
+Twisted Fate Twisted Fate	22	
+ 	 
+54.5%
+8.3
+Lucian Lucian	17	
+ 	 
+82.4%
+4.6
+Lissandra Lissandra	17	
+ 	 
+58.8%
+4.8
+Sett Sett	16	
+ 	 
+50%
+2.9
+Annie Annie	15	
+ 	 
+73.3%
+4.4
+Aatrox Aatrox	15	
+ 	 
+80%
+5.9
+Jayce Jayce	12	
+ 	 
+58.3%
+4.0
+Rumble Rumble	10	
+ 	 
+60%
+4.4
+Aurelion Sol Aurelion Sol	9	
+ 	 
+66.7%
+6.1
+Renekton Renekton	8	
+ 	 
+75%
+6.2
+Hwei Hwei	8	
+ 	 
+50%
+5.1
+Aurora Aurora	8	
+ 	 
+75%
+7.3
+Yasuo Yasuo	8	
+ 	 
+75%
+5.4
+Sion Sion	8	
+ 	 
+75%
+7.0
+KSante KSante	6	
+ 	 
+66.7%
+3.6
+Smolder Smolder	6	
+ 	 
+83.3%
+10.6
+Kassadin Kassadin	5	
+ 
+100%
+13.0
+Camille Camille	5	
+ 	 
+80%
+4.0
+Neeko Neeko	5	
+ 	 
+80%
+8.0
+Vex Vex	4	
+ 
+100%
+11.3
+VelKoz VelKoz	4	
+ 	 
+25%
+3.3
+Draven Draven	4	
+ 	 
+75%
+10.0
+Gragas Gragas	4	
+ 	 
+75%
+3.9
+Nautilus Nautilus	4	
+ 	 
+75%
+4.8
+Ekko Ekko	3	
+ 	 
+66.7%
+6.5
+Veigar Veigar	3	
+ 	 
+33.3%
+7.3
+Nocturne Nocturne	3	
+ 
+100%
+10.3
+Zeri Zeri	3	
+ 	 
+66.7%
+3.9
+Ziggs Ziggs	3	
+ 	 
+66.7%
+8.5
+Ornn Ornn	3	
+ 	 
+33.3%
+2.6
+Urgot Urgot	2	
+ 
+100%
+9.5
+Syndra Syndra	2	
+ 
+0%
+2.3
+Qiyana Qiyana	2	
+ 
+100%
+4.7
+Fiora Fiora	2	
+ 
+100%
+11.0
+Talon Talon	2	
+ 	 
+50%
+3.0
+Viego Viego	2	
+ 	 
+50%
+2.6
+Tryndamere Tryndamere	2	
+ 
+0%
+1.7
+Morgana Morgana	2	
+ 	 
+50%
+11.0
+Lulu Lulu	2	
+ 	 
+50%
+5.0
+Karma Karma	2	
+ 	 
+50%
+7.0
+Vladimir Vladimir	2	
+ 	 
+50%
+2.7
+Garen Garen	1	
+ 
+100%
+3.3
+Ambessa Ambessa	1	
+ 
+0%
+0.7
+Mel Mel	1	
+ 
+0%
+0.7
+Lee Sin Lee Sin	1	
+ 
+0%
+3.7
+Volibear Volibear	1	
+ 
+0%
+4.0
+Lillia Lillia	1	
+ 
+100%
+3.0
+Taric Taric	1	
+ 
+100%
+5.5
+Swain Swain	1	
+ 
+0%
+0.0
+Kalista Kalista	1	
+ 
+0%
+0.3
+Gangplank Gangplank	1	
+ 
+0%
+1.3
+Quinn Quinn	1	
+ 
+100%
+-
+Fizz Fizz	1	
+ 
+0%
+0.7
+Poppy Poppy	1	
+ 
+0%
+2.0
+Ezreal Ezreal	1	
+ 
+100%
+-

@@ -1,0 +1,67 @@
+{
+    "blue_bans": [
+        "Jax",
+        "Pantheon",
+        "Gragas",
+        "Kalista",
+        "Lucian"
+    ],
+    "blue_picks": [
+        "Ambessa",
+        "LeeSin",
+        "TwistedFate",
+        "Caitlyn",
+        "Karma"
+    ],
+    "red_bans": [
+        "Taliyah",
+        "Vi",
+        "Gwen",
+        "Kaisa",
+        "Varus"
+    ],
+    "red_picks": [
+        "Shen",
+        "Skarner",
+        "Ryze",
+        "Jhin",
+        "Bard"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        69,
+        107,
+        226,
+        -558,
+        -212,
+        -154,
+        -520,
+        -422,
+        -388,
+        -232,
+        -1116,
+        -4,
+        458,
+        551,
+        -127,
+        -340,
+        -208,
+        -564,
+        -128,
+        -178,
+        -407,
+        -372,
+        -224,
+        261,
+        -3172,
+        -4876,
+        -5333,
+        -6701,
+        -6822,
+        -6809,
+        -6933,
+        -10667,
+        -11596
+    ]
+}

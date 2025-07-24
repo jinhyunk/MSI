@@ -1,0 +1,64 @@
+{
+    "blue_bans": [
+        "Neeko",
+        "Rumble",
+        "Annie",
+        "Ambessa",
+        "Bard"
+    ],
+    "blue_picks": [
+        "Sion",
+        "Vi",
+        "Ryze",
+        "Senna",
+        "Nautilus"
+    ],
+    "red_bans": [
+        "Pantheon",
+        "Varus",
+        "Azir",
+        "Kaisa",
+        "Xayah"
+    ],
+    "red_picks": [
+        "Camille",
+        "Wukong",
+        "Galio",
+        "Corki",
+        "Poppy"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        39,
+        201,
+        240,
+        360,
+        269,
+        387,
+        762,
+        -551,
+        -1036,
+        -842,
+        4,
+        2,
+        -51,
+        174,
+        307,
+        204,
+        759,
+        1453,
+        2265,
+        2145,
+        1626,
+        1970,
+        2207,
+        2779,
+        5350,
+        8148,
+        8288,
+        10946,
+        12291,
+        13094
+    ]
+}

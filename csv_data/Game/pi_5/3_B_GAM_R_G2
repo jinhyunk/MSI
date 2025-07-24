@@ -1,0 +1,66 @@
+{
+    "blue_bans": [
+        "Azir",
+        "Maokai",
+        "Draven",
+        "Sylas",
+        "Warwick"
+    ],
+    "blue_picks": [
+        "Jax",
+        "Wukong",
+        "Ahri",
+        "Xayah",
+        "Rakan"
+    ],
+    "red_bans": [
+        "Nocturne",
+        "Rumble",
+        "TwistedFate",
+        "Annie",
+        "Gwen"
+    ],
+    "red_picks": [
+        "Ambessa",
+        "Nunu",
+        "Tristana",
+        "MissFortune",
+        "Neeko"
+    ],
+    "gold_diff": [
+        0,
+        1,
+        -102,
+        -115,
+        -13,
+        -130,
+        281,
+        356,
+        1087,
+        -12,
+        -483,
+        -402,
+        -607,
+        -1084,
+        -374,
+        -268,
+        895,
+        957,
+        -42,
+        -4,
+        57,
+        1157,
+        1047,
+        2036,
+        803,
+        458,
+        1761,
+        1794,
+        1541,
+        1859,
+        2299,
+        3934,
+        6844,
+        8744
+    ]
+}

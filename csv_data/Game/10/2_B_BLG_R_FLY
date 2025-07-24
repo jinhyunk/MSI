@@ -1,0 +1,64 @@
+{
+    "blue_bans": [
+        "Cassiopeia",
+        "Azir",
+        "Galio",
+        "Rakan",
+        "Alistar"
+    ],
+    "blue_picks": [
+        "Ornn",
+        "Pantheon",
+        "Viktor",
+        "Corki",
+        "Rell"
+    ],
+    "red_bans": [
+        "TwistedFate",
+        "Varus",
+        "Rumble",
+        "Jayce",
+        "KSante"
+    ],
+    "red_picks": [
+        "Renekton",
+        "Wukong",
+        "Annie",
+        "Kalista",
+        "RenataGlasc"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        8,
+        -94,
+        -7,
+        -50,
+        304,
+        318,
+        80,
+        490,
+        741,
+        396,
+        436,
+        -24,
+        24,
+        -971,
+        -718,
+        506,
+        207,
+        866,
+        749,
+        1559,
+        1659,
+        1883,
+        2490,
+        4960,
+        4641,
+        5838,
+        7215,
+        8596,
+        11638,
+        11688
+    ]
+}

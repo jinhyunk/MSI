@@ -1,0 +1,69 @@
+{
+    "blue_bans": [
+        "Nocturne",
+        "Gwen",
+        "Rumble",
+        "RenataGlasc",
+        "Bard"
+    ],
+    "blue_picks": [
+        "KSante",
+        "Viego",
+        "Annie",
+        "Senna",
+        "TahmKench"
+    ],
+    "red_bans": [
+        "Azir",
+        "Maokai",
+        "Draven",
+        "Blitzcrank",
+        "Ezreal"
+    ],
+    "red_picks": [
+        "Aatrox",
+        "Vi",
+        "Orianna",
+        "Kalista",
+        "Seraphine"
+    ],
+    "gold_diff": [
+        0,
+        5,
+        -27,
+        -62,
+        -179,
+        -135,
+        530,
+        405,
+        186,
+        420,
+        754,
+        228,
+        1374,
+        834,
+        24,
+        550,
+        595,
+        449,
+        644,
+        295,
+        248,
+        -128,
+        11,
+        222,
+        404,
+        292,
+        771,
+        1453,
+        1112,
+        1408,
+        1820,
+        5022,
+        5599,
+        7924,
+        7308,
+        7172,
+        10997
+    ]
+}

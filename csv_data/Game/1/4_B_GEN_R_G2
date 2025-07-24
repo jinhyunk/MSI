@@ -1,0 +1,64 @@
+{
+    "blue_bans": [
+        "Pantheon",
+        "Annie",
+        "Trundle",
+        "Zed",
+        "Olaf"
+    ],
+    "blue_picks": [
+        "Jayce",
+        "Skarner",
+        "Taliyah",
+        "Corki",
+        "Poppy"
+    ],
+    "red_bans": [
+        "Nidalee",
+        "Gwen",
+        "RenataGlasc",
+        "Ambessa",
+        "Camille"
+    ],
+    "red_picks": [
+        "Aatrox",
+        "Dr.Mundo",
+        "TwistedFate",
+        "Kaisa",
+        "Leona"
+    ],
+    "gold_diff": [
+        0,
+        -5,
+        -19,
+        128,
+        871,
+        604,
+        1253,
+        1282,
+        1240,
+        1033,
+        223,
+        224,
+        112,
+        168,
+        371,
+        998,
+        909,
+        2207,
+        2231,
+        3476,
+        3206,
+        3247,
+        2579,
+        2074,
+        2748,
+        2588,
+        2436,
+        1726,
+        3997,
+        3920,
+        6011,
+        7822
+    ]
+}
