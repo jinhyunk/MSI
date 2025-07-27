@@ -2,63 +2,58 @@ import numpy as np
 
 from _utils import * 
 from _Load import * 
+from math import exp
 
-def calc_wr_total(team,pick_data,region=0):
+import numpy as np
 
-    results = []
-    for i in range(0,len(pick_data)):
-        champ = pick_data[i]
-        player_name = Find_player(team,i)
-        game,wr_player = load_player(champ,team,player_name)
-        pickban_rank,wr_rank = load_rank(champ,i)
-        pickban_league,wr_league = load_league(champ,i)
-        
-        results.append({
-            "game": game,
-            "wr_player": wr_player,
-            "pickban_rank": pickban_rank,
-            "wr_rank": wr_rank,
-            "pickban_league": pickban_league,
-            "wr_league": wr_league
-        })
-
-    return results
-
-def calc_wr_time_avg(pick_data):
-    total_power = None
-
-    for i in range(0,len(pick_data)):
-        champs_name = pick_data[i]
-        champs_idx = Find_champion_idx(champs_name)
-        if champs_idx == None:
-            print(f"❌ '{champs_name}'에 해당하는 데이터 인덱스가 존재하지 않습니다.")
-        
-        power_graph_kr = load_power(champs_idx,i,0)
-        power_graph_eu = load_power(champs_idx,i,1)
-        power_graph_na = load_power(champs_idx,i,3)
-        if total_power is None:
-            total_power = np.zeros_like(power_graph_kr)
-        power_graph = (power_graph_kr + power_graph_eu + power_graph_na) / 3.0
-        total_power = total_power + power_graph
-        
-    total_power = total_power/ 5.0
+def calc_mastery(game_gamer, wr_gamer, master=10, scale=0.2, w_gamer=0.9):
+    def func_activation(game, master=10, scale=0.2, max_val=0.9):
+        sig = 1 / (1 + np.exp(-scale * (game - master)))  # 0 ~ 1
+        return sig * max_val
     
-    return total_power
+    nm_game = func_activation(game_gamer, master, scale)
+    base_mastery = w_gamer * nm_game + (1.0 - w_gamer) * wr_gamer
 
-def calc_wr_time(pick_data,region=0):
-    total_power = None
+    def bonus_signature(game, wr, min_game=50, min_wr=0.55, bonus_max=0.05):
+        if game < min_game or wr < min_wr:
+            return 0.0
+        wr_adj = min((wr - min_wr) / (0.65 - min_wr), 1.0)
+        return bonus_max * wr_adj
 
-    for i in range(0,len(pick_data)):
-        champs_name = pick_data[i]
-        champs_idx = Find_champion_idx(champs_name)
-        if champs_idx == None:
-            print(f"❌ '{champs_name}'에 해당하는 데이터 인덱스가 존재하지 않습니다.")
-        
-        power_graph = load_power(champs_idx,i,region)
-        if total_power is None:
-            total_power = np.zeros_like(power_graph)
-        total_power = total_power + power_graph
-        
-    total_power = total_power/ 5.0
+    bonus = bonus_signature(game_gamer, wr_gamer)
+
+    return base_mastery + bonus
+
+def calc_winrate(elo_team1, elo_team2):
     
-    return total_power
+    probability = 1 / (1 + math.pow(10, (elo_team2 - elo_team1) / 400))
+    return probability , 1.0-probability
+
+def calc_po_champ(po_kr, po_eu, po_na, weights):
+    
+    return (
+        weights[0] * po_kr +
+        weights[1] * po_eu +
+        weights[2] * po_na
+    )
+
+def calc_po_compare(data_dict):
+    def calc_po_region(po, wr_rank):
+        return po - wr_rank
+    regions = ['kr', 'eu', 'na']
+    
+    for region in regions:
+        po_key = f'po_{region}'
+        wr_key = f'wr_rank_{region}'
+        comp_key = f'po_compare_{region}'
+        
+        if po_key in data_dict and wr_key in data_dict:
+            data_dict[comp_key] = calc_po_region(data_dict[po_key], data_dict[wr_key])
+            
+    return data_dict
+
+def calc_po_compare(po,wr_rank):
+    return po - wr_rank 
+    
+def calc_wr_team(ELO1,ELO2,gamer):
+    wr_B, wr_R = calc_winrate(ELO1,ELO2)

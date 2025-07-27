@@ -4,6 +4,7 @@ import json
 import requests
 import pandas as pd 
 import numpy as np 
+import os 
 
 from _utils import * 
 from selenium import webdriver
@@ -131,19 +132,28 @@ def load_rank(champion_name,lane,region=0,path='./data/Rank/'):
 
     return pickban, winrate    
 
-def load_league(champion_name,lane,region='LPL',path='./data/League/'):
-    file_path = path + str(region) + '/' + str(lane) + '.csv' 
-    df = pd.read_csv(file_path)
-    row = df[df['Champion']==champion_name]
-    
-    if row.empty:
-        print(f"❌ '{champion_name}'에 해당하는 리그 기록이 존재하지 않습니다.")
-        return 0, -1
+def load_league(champion_name,lane,path='./data/League/'):
+    result = {}
+    for region in os.listdir(path):
+        region_path = os.path.join(path, region)
+        file_path = os.path.join(region_path, f"{lane}.csv")
 
-    pickban = row['PickBanRate'].values[0]
-    winrate = row['WinRate'].values[0]
+        try:
+            df = pd.read_csv(file_path)
+        except Exception as e:
+            print(f"⚠️ {region} - 파일 읽기 실패: {e}")
+            continue
+        row = df[df['Champion'] == champion_name]
 
-    return pickban, winrate
+        if row.empty:
+            print(f"❌ '{champion_name}'에 대한 데이터가 {region}에 존재하지 않습니다.")
+            result[f'pb_{region}'] = 0
+            result[f'wr_{region}'] = -1
+        else:
+            result[f'pb_{region}'] = row['PickBanRate'].values[0]
+            result[f'wr_{region}'] = row['WinRate'].values[0]
+
+    return result
 
 def load_player(champion_name,team,player,path='./data/Gamer/'):
     file_path = path + team + '/' + player + '.csv' 
@@ -158,3 +168,40 @@ def load_player(champion_name,team,player,path='./data/Gamer/'):
     winrate = row['WinRate'].values[0]
 
     return game, winrate
+
+def load_champion(team,champion,pos_idx):
+    
+    player_name = Find_player(team,pos_idx)
+    champs_idx = Find_champion_idx(champion)
+    
+    if champs_idx == None:
+        print(f"❌ '{champion}'에 해당하는 데이터 인덱스가 존재하지 않습니다.")
+    
+    game,wr_player = load_player(champion,team,player_name)
+    pickban_rank_kr,wr_rank_kr = load_rank(champion,pos_idx,0)
+    pickban_rank_eu,wr_rank_eu = load_rank(champion,pos_idx,1)
+    pickban_rank_na,wr_rank_na = load_rank(champion,pos_idx,3)
+    data_leauge = load_league(champion,pos_idx)
+    
+    power_graph_kr = load_power(champs_idx,pos_idx,0) / 100.0
+    power_graph_eu = load_power(champs_idx,pos_idx,1) / 100.0
+    power_graph_na = load_power(champs_idx,pos_idx,3) / 100.0
+    
+    result = {
+        "Gamer": player_name,
+        "game_gamer": game,
+        "wr_gamer": wr_player,
+        "wr_rank_kr": wr_rank_kr,
+        "pb_rank_kr": pickban_rank_kr,
+        "wr_rank_eu": wr_rank_eu,
+        "pb_rank_eu": pickban_rank_eu,
+        "wr_rank_na": wr_rank_na,
+        "pb_rank_na": pickban_rank_na,
+        "po_kr": power_graph_kr,
+        "po_eu": power_graph_eu,
+        "po_na": power_graph_na,
+    }
+
+    result.update(data_leauge)
+
+    return result

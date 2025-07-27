@@ -1,21 +1,7 @@
 import json
 import math
 import pandas as pd 
-
-
-def calc_winrate(elo_team1, elo_team2):
-    """
-    두 팀의 ELO 레이팅을 기반으로 팀1이 승리할 확률을 계산합니다.
-    
-    Parameters:
-    - elo_team1 (float): 팀1의 ELO 레이팅
-    - elo_team2 (float): 팀2의 ELO 레이팅
-
-    Returns:
-    - float: 팀1이 승리할 확률 (0 ~ 1)
-    """
-    probability = 1 / (1 + math.pow(10, (elo_team2 - elo_team1) / 400))
-    return probability
+import numpy as np 
 
 def Find_champion_idx(name_us, file_path="./json/champions.json"):
     with open(file_path, "r", encoding="utf-8") as f:
@@ -80,3 +66,19 @@ def replace_champion_names(pick_list):
     "TahmKench": "Tahm Kench"
     }
     return [replace_dict.get(champ, champ) for champ in pick_list]
+
+def init_weights(region_code, scale=5.0):
+    
+    region_map = {0: 0, 1: 1, 3: 2}
+    if region_code not in region_map:
+        raise ValueError(f"Unsupported region_code: {region_code}")
+    
+    idx = region_map[region_code]
+    
+    logits = np.zeros(3)
+    logits[idx] = scale  # 해당 지역 강조
+    
+    exp_logits = np.exp(logits)
+    weights = exp_logits / np.sum(exp_logits)
+    
+    return weights
