@@ -1,26 +1,26 @@
-Champion,Game,Win rate
-Lee Sin,69,73.9%
-Sejuani,61,68.9%
-Viego,61,68.9%
-Vi,48,66.7%
-Xin Zhao,41,73.2%
-Poppy,33,72.7%
-Wukong,31,58.1%
-Maokai,26,38.5%
-Nocturne,21,85.7%
-Nidalee,21,61.9%
-Jarvan IV,17,64.7%
-Rell,16,81.3%
-Lillia,12,58.3%
-Graves,10,60%
-Diana,10,70%
-Kha'Zix,8,62.5%
-Kindred,5,20%
-Zyra,4,25%
-Skarner,4,75%
-Elise,4,100%
-Ivern,4,25%
-Hecarim,4,75%
-Trundle,4,50%
-Talon,3,100%
-Jax,2,0%
+Champion,Game,WinRate
+Lee Sin,69,0.7390000000000001
+Sejuani,61,0.6890000000000001
+Viego,61,0.6890000000000001
+Vi,48,0.667
+Xin Zhao,41,0.732
+Poppy,33,0.727
+Wukong,31,0.581
+Maokai,26,0.385
+Nocturne,21,0.857
+Nidalee,21,0.619
+Jarvan IV,17,0.647
+Rell,16,0.813
+Lillia,12,0.583
+Graves,10,0.6
+Diana,10,0.7
+Kha'Zix,8,0.625
+Kindred,5,0.2
+Zyra,4,0.25
+Skarner,4,0.75
+Elise,4,1.0
+Ivern,4,0.25
+Hecarim,4,0.75
+Trundle,4,0.5
+Talon,3,1.0
+Jax,2,0.0

@@ -1,52 +1,52 @@
-Champion,Game,Win rate
-Sejuani,86,65.1%
-Lee Sin,67,52.2%
-Xin Zhao,53,67.9%
-Wukong,46,56.5%
-Olaf,45,48.9%
-Trundle,40,65%
-Maokai,40,67.5%
-Jarvan IV,32,62.5%
-Viego,26,42.3%
-Poppy,25,60%
-Volibear,24,62.5%
-Nocturne,23,65.2%
-Elise,22,59.1%
-Nidalee,21,33.3%
-Vi,20,75%
-Zac,19,63.2%
-Lillia,18,50%
-Brand,15,53.3%
-Skarner,15,73.3%
-Pantheon,14,78.6%
-Gragas,12,50%
-Diana,11,54.5%
-RekSai,10,40%
-Graves,10,50%
-Taliyah,10,70%
-Naafiri,10,90%
-Karthus,8,37.5%
-Hecarim,8,50%
-Udyr,7,42.9%
-KhaZix,6,66.7%
-Aatrox,5,80%
-Kindred,5,0%
-Camille,5,60%
-Rell,4,75%
-Rumble,4,25%
-Zyra,4,0%
-Ivern,3,33.3%
-Qiyana,3,100%
-Evelynn,3,100%
-Braum,3,33.3%
-Sett,2,50%
-Zed,2,50%
-Gwen,1,0%
-Ekko,1,0%
-Kayn,1,0%
-Sylas,1,100%
-Master Yi,1,100%
-Morgana,1,100%
-Amumu,1,0%
-Shen,1,0%
-Shyvana,1,0%
+Champion,Game,WinRate
+Sejuani,86,0.6509999999999999
+Lee Sin,67,0.522
+Xin Zhao,53,0.679
+Wukong,46,0.565
+Olaf,45,0.489
+Trundle,40,0.65
+Maokai,40,0.675
+Jarvan IV,32,0.625
+Viego,26,0.423
+Poppy,25,0.6
+Volibear,24,0.625
+Nocturne,23,0.652
+Elise,22,0.591
+Nidalee,21,0.33299999999999996
+Vi,20,0.75
+Zac,19,0.632
+Lillia,18,0.5
+Brand,15,0.5329999999999999
+Skarner,15,0.733
+Pantheon,14,0.7859999999999999
+Gragas,12,0.5
+Diana,11,0.545
+RekSai,10,0.4
+Graves,10,0.5
+Taliyah,10,0.7
+Naafiri,10,0.9
+Karthus,8,0.375
+Hecarim,8,0.5
+Udyr,7,0.429
+KhaZix,6,0.667
+Aatrox,5,0.8
+Kindred,5,0.0
+Camille,5,0.6
+Rell,4,0.75
+Rumble,4,0.25
+Zyra,4,0.0
+Ivern,3,0.33299999999999996
+Qiyana,3,1.0
+Evelynn,3,1.0
+Braum,3,0.33299999999999996
+Sett,2,0.5
+Zed,2,0.5
+Gwen,1,0.0
+Ekko,1,0.0
+Kayn,1,0.0
+Sylas,1,1.0
+Master Yi,1,1.0
+Morgana,1,1.0
+Amumu,1,0.0
+Shen,1,0.0
+Shyvana,1,0.0

@@ -1,22 +1,22 @@
-Champion,Game,Win rate
-Aphelios,60,65%
-Xayah,48,72.9%
-Varus,46,76.1%
-Kalista,40,65%
-Jinx,40,72.5%
-Lucian,39,71.8%
-Senna,36,80.6%
-Zeri,31,54.8%
-Caitlyn,28,82.1%
-Jhin,26,57.7%
-Kai'Sa,26,38.5%
-Draven,25,64%
-Ezreal,21,47.6%
-Ashe,20,60%
-Ziggs,16,56.3%
-Sivir,13,61.5%
-Samira,9,66.7%
-Miss Fortune,8,62.5%
-Nila,6,50%
-Vayne,5,60%
-Tristana,2,0%
+Champion,Game,WinRate
+Aphelios,60,0.65
+Xayah,48,0.7290000000000001
+Varus,46,0.7609999999999999
+Kalista,40,0.65
+Jinx,40,0.725
+Lucian,39,0.718
+Senna,36,0.8059999999999999
+Zeri,31,0.5479999999999999
+Caitlyn,28,0.821
+Jhin,26,0.5770000000000001
+Kai'Sa,26,0.385
+Draven,25,0.64
+Ezreal,21,0.47600000000000003
+Ashe,20,0.6
+Ziggs,16,0.563
+Sivir,13,0.615
+Samira,9,0.667
+Miss Fortune,8,0.625
+Nila,6,0.5
+Vayne,5,0.6
+Tristana,2,0.0

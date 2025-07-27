@@ -1,20 +1,20 @@
 Champion,PickBanRate,WinRate
-Vi,90.0,100
-Pantheon,60.0,20
-Naafiri,40.0,40
-Trundle,36.7,40
-Poppy,36.7,100
-Sejuani,30.0,66.7
-Maokai,23.3,66.7
-Xin Zhao,23.3,57.1
-Skarner,20.0,60
-Wukong,16.7,75
-Nocturne,16.7,50
-Jarvan IV,13.3,50
-Dr. Mundo,10.0,100
-Viego,10.0,0
-Lee Sin,6.7,100
-Lillia,3.3,0
-Kha'Zix,3.3,100
-Ivern,3.3,NA
-Kindred,3.3,NA
+Vi,0.9,1.0
+Pantheon,0.6,0.2
+Naafiri,0.4,0.4
+Trundle,0.36700000000000005,0.4
+Poppy,0.36700000000000005,1.0
+Sejuani,0.3,0.667
+Maokai,0.233,0.667
+Xin Zhao,0.233,0.5710000000000001
+Skarner,0.2,0.6
+Wukong,0.16699999999999998,0.75
+Nocturne,0.16699999999999998,0.5
+Jarvan IV,0.133,0.5
+Dr. Mundo,0.1,1.0
+Viego,0.1,0.0
+Lee Sin,0.067,1.0
+Lillia,0.033,0.0
+Kha'Zix,0.033,1.0
+Ivern,0.033,-1.0
+Kindred,0.033,-1.0

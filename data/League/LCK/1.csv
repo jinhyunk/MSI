@@ -1,16 +1,16 @@
 Champion,PickBanRate,WinRate
-Vi,94,0
-Pantheon,67,50
-Trundle,50,50
-Nidalee,50,0
-Poppy,50,100
-Xin Zhao,39,40
-Nocturne,33,100
-Wukong,33,75
-Sejuani,22,0
-Jarvan IV,17,67
-Skarner,17,100
-Lee Sin,11,100
-Maokai,6,0
-Kindred,6,0
-Lillia,6,0
+Vi,0.94,0.0
+Pantheon,0.67,0.5
+Trundle,0.5,0.5
+Nidalee,0.5,0.0
+Poppy,0.5,1.0
+Xin Zhao,0.39,0.4
+Nocturne,0.33,1.0
+Wukong,0.33,0.75
+Sejuani,0.22,0.0
+Jarvan IV,0.17,0.67
+Skarner,0.17,1.0
+Lee Sin,0.11,1.0
+Maokai,0.06,0.0
+Kindred,0.06,0.0
+Lillia,0.06,0.0

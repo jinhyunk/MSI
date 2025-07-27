@@ -1,22 +1,22 @@
-Champion,Game,Win rate
-Azir,16,68.8%
-Viktor,11,72.7%
-Taliyah,9,66.7%
-Corki,7,57.1%
-Galio,6,50%
-Yone,5,60%
-Aurora,4,25%
-Tristana,4,75%
-Mel,3,33.3%
-Sylas,3,100%
-Orianna,3,66.7%
-Akali,3,66.7%
-Ahri,3,66.7%
-Swain,2,100%
-Ryze,2,100%
-Annie,2,50%
-Jayce,1,100%
-Vladimir,1,100%
-Aurelion Sol,1,100%
-Camille,1,100%
-Cassiopeia,1,0%
+Champion,Game,WinRate
+Azir,16,0.688
+Viktor,11,0.727
+Taliyah,9,0.667
+Corki,7,0.5710000000000001
+Galio,6,0.5
+Yone,5,0.6
+Aurora,4,0.25
+Tristana,4,0.75
+Mel,3,0.33299999999999996
+Sylas,3,1.0
+Orianna,3,0.667
+Akali,3,0.667
+Ahri,3,0.667
+Swain,2,1.0
+Ryze,2,1.0
+Annie,2,0.5
+Jayce,1,1.0
+Vladimir,1,1.0
+Aurelion Sol,1,1.0
+Camille,1,1.0
+Cassiopeia,1,0.0
