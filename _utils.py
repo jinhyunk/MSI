@@ -53,6 +53,32 @@ def Find_player(team_name, pos_idx, file_path="./json/roster.json"):
                 return selected_players[choice]
         print("Invalid input. Please try again.")
 
+def Find_ELO(match_idx,team1,team2,file_path="./json/ELO.json"):
+    
+    with open(file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    
+    for match_data in data:
+        if match_data["Match"] == str(match_idx):
+            elo_list = match_data["ELO"]
+            team1_elo = None
+            team2_elo = None
+
+            for team_data in elo_list:
+                if team1 in team_data:
+                    team1_elo = team_data[team1]
+                if team2 in team_data:
+                    team2_elo = team_data[team2]
+
+            if team1_elo is not None and team2_elo is not None:
+                return team1_elo, team2_elo
+            else:
+                print(f"⚠️ 팀 정보를 찾을 수 없음: {team1}, {team2}")
+                return None
+
+    print(f"❌ Match ID '{match_idx}'를 찾을 수 없음.")
+    return None
+
 def replace_champion_names(pick_list):
     replace_dict = {
     "TwistedFate": "Twisted Fate",

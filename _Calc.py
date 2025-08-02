@@ -5,6 +5,12 @@ from _Load import *
 from math import exp
 
 import numpy as np
+import torch 
+import torch.nn as nn
+
+region_map = {'0': 'kr', '1': 'eu', '3': 'na'}
+regions = ['kr', 'eu', 'na']
+leagues = ['LCK', 'LPL', 'LTA_N', 'LTA_S']
 
 def calc_mastery(game_gamer, wr_gamer, master=10, scale=0.2, w_gamer=0.9):
     def func_activation(game, master=10, scale=0.2, max_val=0.9):
@@ -29,31 +35,18 @@ def calc_winrate(elo_team1, elo_team2):
     probability = 1 / (1 + math.pow(10, (elo_team2 - elo_team1) / 400))
     return probability , 1.0-probability
 
-def calc_po_champ(po_kr, po_eu, po_na, weights):
-    
-    return (
-        weights[0] * po_kr +
-        weights[1] * po_eu +
-        weights[2] * po_na
-    )
-
 def calc_po_compare(data_dict):
     def calc_po_region(po, wr_rank):
         return po - wr_rank
-    regions = ['kr', 'eu', 'na']
     
+    result = {}
     for region in regions:
-        po_key = f'po_{region}'
+        po_key = f'po_rank_{region}'
         wr_key = f'wr_rank_{region}'
-        comp_key = f'po_compare_{region}'
+        comp_key = f'po_cp_{region}'
         
         if po_key in data_dict and wr_key in data_dict:
-            data_dict[comp_key] = calc_po_region(data_dict[po_key], data_dict[wr_key])
+            result[comp_key] = calc_po_region(data_dict[po_key], data_dict[wr_key])
             
-    return data_dict
+    return result
 
-def calc_po_compare(po,wr_rank):
-    return po - wr_rank 
-    
-def calc_wr_team(ELO1,ELO2,gamer):
-    wr_B, wr_R = calc_winrate(ELO1,ELO2)
