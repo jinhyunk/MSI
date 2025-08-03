@@ -1,3 +1,5 @@
+import torch
+import torch.nn as nn
 from Model.layer import *
 
 class Model(nn.Module):
