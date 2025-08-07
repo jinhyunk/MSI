@@ -7,6 +7,7 @@ import numpy as np
 import os 
 
 from _utils import * 
+from _Config import leagues,regions,region_map
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
@@ -91,20 +92,24 @@ def load_match_saved(path,match_idx,game_name):
 def load_match_train(path="./data/Game/"):
     result = []
     for match in os.listdir(path):
-        match_path = os.path.join(path,match)
+        match_path = os.path.join(path, match)
+        data_game = []
         for file in os.listdir(match_path):
             file_path = os.path.join(match_path, file)
             try:
                 with open(file_path, "r", encoding="utf-8") as f:
-                    match_data = json.load(f)
-                result.append({
-                    "match_idx": match,
+                    game_data = json.load(f)
+                data_game.append({
                     "game_name": file,
-                    "data": match_data
+                    "game_data": game_data
                 })
             except Exception as e:
                 print(f"❌ Failed to load '{file_path}':", e)
-
+        match_data = {
+            "match_idx": match,
+            "data_game": data_game
+        }
+        result.append(match_data)
     return result
 
 def load_league(champion_name,lane,path='./data/League/'):
@@ -234,4 +239,3 @@ def load_champion(champion,pos_idx):
     result.update(data_po)
 
     return result
-

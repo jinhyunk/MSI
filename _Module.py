@@ -2,56 +2,98 @@ import torch
 import torch.nn as nn
 import numpy as np
 
-class Module_champ_tear(nn.Module):
+from _Calc import calc_mastery
+from _utils import *
+from _Load import *
+from _Config import regions,leagues,region_map
+
+class Loader_player(nn.Module):
     def __init__(self,
-                 c_wr=0.50,
-                 c_pb_1=0.20, c_pb_2=0.80,
-                 init_s_wr=40.0,
-                 init_s_pb_1=25.0, init_s_pb_2=5.0,
-                 init_w_pb=0.55,
-                 init_w_score=0.9):
-        super().__init__()
-        
-        # 고정값
-        self.c_wr = c_wr
-        self.c_pb_1 = c_pb_1
-        self.c_pb_2 = c_pb_2
-
-        # 학습 파라미터
-        self.s_wr = nn.Parameter(torch.tensor(init_s_wr, dtype=torch.float32))
-        self.s_pb_1 = nn.Parameter(torch.tensor(init_s_pb_1, dtype=torch.float32))
-        self.s_pb_2 = nn.Parameter(torch.tensor(init_s_pb_2, dtype=torch.float32))
-        self.w_pb = nn.Parameter(torch.tensor(init_w_pb, dtype=torch.float32))
-        self.w_score = nn.Parameter(torch.tensor(init_w_score, dtype=torch.float32))
-
-    def normalize_winrate(self, wr):
-        if wr != -1.0:
-            wr = torch.tensor(wr, dtype=torch.float32)
-        else:
-            wr = torch.tensor(0.30, dtype=torch.float32)
-
-        return 1 / (1 + torch.exp(-self.s_wr * (wr - self.c_wr)))
-
-    def normalize_pickban(self, pb):
-        pb = torch.tensor(pb, dtype=torch.float32)
-        s1 = 1 / (1 + torch.exp(-self.s_pb_1 * (pb - self.c_pb_1)))
-        s2 = 1 / (1 + torch.exp(-self.s_pb_2 * (pb - self.c_pb_2)))
-        return self.w_pb * s1 + (1 - self.w_pb) * s2
-
-    def forward(self, wr, pb):
-        wr_norm = self.normalize_winrate(wr)
-        pb_norm = self.normalize_pickban(pb)
-        
-        return self.w_score * wr_norm + (1 - self.w_score) * pb_norm
-
-class Module_team(nn.Module):
-    def __init__(self,
+                 encoder,
                  ):
         super().__init__()
+        self.encoder = encoder
+        self.loader = load_player
 
-        self.module_champ_rank = Module_champ_tear(init_s_wr=40.0,init_w_score=0.7)
-        self.module_champ_lg = Module_champ_tear(init_s_wr=10.0,init_w_score=0.1)
+    def forward(self,team,pb):
+        result = []
+        for pos_idx in range(0,len(pb)):
+            data = self.loader(team,pb[pos_idx],pos_idx)
+            out = self.encoder(data["game_gamer"],data["wr_gamer"])
+            result.append(out)
+
+        return result 
+
+class Loader_match(nn.Module):
+    def loader_game(self,data_save):
+        name_game = data_save["game_name"]
+        parts = name_game.split("_")
+        team_b = parts[2] 
+        team_r = parts[4]
+
+        data_game = data_save["game_data"]
+        
+        pb_b_raw = data_game["blue_picks"]
+        pb_r_raw = data_game["red_picks"]
+        pb_b = replace_champion_names(pb_b_raw)
+        pb_r = replace_champion_names(pb_r_raw)
+
+        return {
+            "B":team_b,
+            "R":team_r,
+            "pb_B":pb_b,
+            "pb_R":pb_r
+        }
+        
+    def __init__(self,):
+        super().__init__()
     
-    def forward(self,data_player,data_champ):
-        champ_tear_rank = self.module_champ_rank(data_champ)
-        champ_tear_lg = self.module_champ_lg(data_champ)
+    def forward(self, data_match):
+        data_tot = []
+        for i in range(0,len(data_match)):
+            data_game = self.loader_game(data_match[i])
+            data_tot.append(data_game)
+
+        return data_tot 
+    
+class Loader_champ(nn.Module):
+    def __init__(self,
+                 encoder,
+                 loader,
+                 reader,
+                 ):
+        super().__init__()
+        self.encoder = encoder
+        self.loader = loader
+        self.enc = reader
+
+    def forward(self, pb):
+        result = []
+        for pos_idx in range(0,len(pb)):
+            data = self.loader(pb[pos_idx],pos_idx)
+            out = self.enc(data,self.encoder)
+            result.append(out)
+
+        return result 
+    
+def reader_rank(data_champ,encoder):
+    output = {}
+    for region in regions:
+        wr_key = f'wr_rank_{region}'
+        pb_key = f'pb_rank_{region}'
+        out_key = f'result_rank_{region}'
+        if pb_key in data_champ and wr_key in data_champ:
+            output[out_key] = encoder(data_champ[wr_key],data_champ[pb_key])
+        
+    return output
+
+def reader_lg(data_champ,encoder):
+    output = {}
+    for region in leagues:
+        wr_key = f'wr_lg_{region}'
+        pb_key = f'pb_lg_{region}'
+        out_key = f'result_lg_{region}'
+        if pb_key in data_champ and wr_key in data_champ:
+            output[out_key] = encoder(data_champ[wr_key],data_champ[pb_key])
+        
+    return output

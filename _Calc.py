@@ -2,15 +2,12 @@ import numpy as np
 
 from _utils import * 
 from _Load import * 
+from _Config import leagues,regions,region_map
 from math import exp
 
 import numpy as np
 import torch 
 import torch.nn as nn
-
-region_map = {'0': 'kr', '1': 'eu', '3': 'na'}
-regions = ['kr', 'eu', 'na']
-leagues = ['LCK', 'LPL', 'LTA_N', 'LTA_S']
 
 def calc_mastery(game_gamer, wr_gamer, master=10, scale=0.2, w_gamer=0.9):
     def func_activation(game, master=10, scale=0.2, max_val=0.9):

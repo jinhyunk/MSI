@@ -3,6 +3,8 @@ import math
 import pandas as pd 
 import numpy as np 
 
+from _Config import PLAYER_CACHE
+
 def Find_champion_idx(name_us, file_path="./json/champions.json"):
     with open(file_path, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -13,7 +15,7 @@ def Find_champion_idx(name_us, file_path="./json/champions.json"):
     
     return None  # 찾지 못했을 경우
 
-def Find_player(team_name, pos_idx, file_path="./json/roster.json"):
+def Find_player_test(team_name, pos_idx, file_path="./json/roster.json"):
     position_names = {0: "Top", 1: "Jungle", 2: "Mid", 3: "ADC", 4: "Support"}
 
     with open(file_path, "r", encoding="utf-8") as f:
@@ -50,6 +52,56 @@ def Find_player(team_name, pos_idx, file_path="./json/roster.json"):
         if choice.isdigit():
             choice = int(choice)
             if 0 <= choice < len(selected_players):
+                return selected_players[choice]
+        print("Invalid input. Please try again.")
+
+def Find_player(team_name, pos_idx, file_path="./json/roster.json"):
+    
+    position_names = {0: "Top", 1: "Jungle", 2: "Mid", 3: "ADC", 4: "Support"}
+    key = (team_name, pos_idx)
+
+    # 이미 선택된 플레이어가 있으면 캐시에서 반환
+    if key in PLAYER_CACHE:
+        return PLAYER_CACHE[key]
+
+    # 파일 로드
+    with open(file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    team_found = False
+    selected_players = []
+
+    for team in data:
+        if team["team"] == team_name:
+            team_found = True
+            for player in team["players"]:
+                if player["position"] == pos_idx:
+                    selected_players.append(player["name"])
+            break
+
+    if not team_found:
+        print(f"Team '{team_name}' does not exist in the data.")
+        return None
+
+    if not selected_players:
+        print(f"No players found in position '{position_names.get(pos_idx, 'Unknown')}' for team '{team_name}'.")
+        return None
+
+    if len(selected_players) == 1:
+        PLAYER_CACHE[key] = selected_players[0]
+        return selected_players[0]
+
+    # 플레이어 선택 - 최초 1회
+    print(f"Multiple players found for position '{position_names.get(pos_idx, 'Unknown')}' in team '{team_name}':")
+    for i, name in enumerate(selected_players):
+        print(f"{i}. {name}")
+
+    while True:
+        choice = input("Please enter the number of the player you want to select: ")
+        if choice.isdigit():
+            choice = int(choice)
+            if 0 <= choice < len(selected_players):
+                PLAYER_CACHE[key] = selected_players[choice]  # 선택 저장
                 return selected_players[choice]
         print("Invalid input. Please try again.")
 
