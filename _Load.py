@@ -15,6 +15,9 @@ from bs4 import BeautifulSoup
 
 chrome_path = r"chromedriver.exe"
 region_map = {'0': 'kr', '1': 'eu', '3': 'na'}
+pb_new = 0.005
+wr_new = 0.50
+
 
 def load_match(game_url: str):
     service = Service(chrome_path)
@@ -127,8 +130,8 @@ def load_league(champion_name,lane,path='./data/League/'):
 
         if row.empty:
             print(f"❌ '{champion_name}'에 대한 데이터가 {region}에 존재하지 않습니다.")
-            result[f'pb_lg_{region}'] = 0
-            result[f'wr_lg_{region}'] = -1.0
+            result[f'pb_lg_{region}'] = pb_new
+            result[f'wr_lg_{region}'] = wr_new
         else:
             result[f'pb_lg_{region}'] = row['PickBanRate'].values[0]
             result[f'wr_lg_{region}'] = row['WinRate'].values[0]
@@ -157,8 +160,8 @@ def load_rank(champion_name, lane, path='./data/Rank/'):
 
         if row.empty:
             print(f"❌ '{champion_name}'에 대한 데이터가 {region_name}에 존재하지 않습니다.")
-            result[f'pb_rank_{region_name}'] = 0
-            result[f'wr_rank_{region_name}'] = -1.0
+            result[f'pb_rank_{region_name}'] = pb_new
+            result[f'wr_rank_{region_name}'] = wr_new
         else:
             result[f'pb_rank_{region_name}'] = row['PickBanRate'].values[0]
             result[f'wr_rank_{region_name}'] = row['WinRate'].values[0]
@@ -202,7 +205,7 @@ def load_mastery(champion_name,team,player,path='./data/Gamer/'):
     
     if row.empty:
         print(f"❌ '{champion_name}'에 해당하는 게이머 기록이 존재하지 않습니다.")
-        return 0, -1.0
+        return pb_new, wr_new
 
     game = row['Game'].values[0]
     winrate = row['WinRate'].values[0]

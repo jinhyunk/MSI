@@ -22,7 +22,8 @@ class Loader_player(nn.Module):
             out = self.encoder(data["game_gamer"],data["wr_gamer"])
             result.append(out)
 
-        return result 
+        output = torch.stack(result) 
+        return output
 
 class Loader_match(nn.Module):
     def loader_game(self,data_save):
@@ -61,21 +62,58 @@ class Loader_champ(nn.Module):
                  encoder,
                  loader,
                  reader,
+                 stacker,
                  ):
         super().__init__()
         self.encoder = encoder
         self.loader = loader
         self.enc = reader
+        self.stacker = stacker
 
     def forward(self, pb):
         result = []
         for pos_idx in range(0,len(pb)):
             data = self.loader(pb[pos_idx],pos_idx)
-            out = self.enc(data,self.encoder)
-            result.append(out)
+            out_dict = self.enc(data,self.encoder)
+            out_tensor = self.stacker(out_dict)  
+            result.append(out_tensor)
 
-        return result 
-    
+        output = torch.stack(result)  # shape: (5, R, D)
+
+        return output
+
+def stacker_region(data_region):
+    tensors = []
+
+    for region in regions:
+        stack_key = f'result_rank_{region}'
+        
+        if stack_key in data_region:
+            tensors.extend(data_region[stack_key])
+        
+    if tensors:
+        output = torch.stack(tensors).view(-1)  # (n,)
+    else:
+        output = torch.tensor([])  
+
+    return output
+
+def stacker_league(data_region):
+    tensors = []
+
+    for region in leagues:
+        stack_key = f'result_lg_{region}'
+        
+        if stack_key in data_region:
+            tensors.extend(data_region[stack_key])
+        
+    if tensors:
+        output = torch.stack(tensors).view(-1)  # (n,)
+    else:
+        output = torch.tensor([])  
+
+    return output
+
 def reader_rank(data_champ,encoder):
     output = {}
     for region in regions:

@@ -47,3 +47,20 @@ def calc_po_compare(data_dict):
             
     return result
 
+def normalize_mastery(game, s_game=0.2 , mim_game=5):
+        return 1 / (1 + torch.exp(-s_game * (game - mim_game)))  # 0 ~ 1
+
+def normalize_winrate(wr,s_wr=40.0,c_wr=0.50):
+        wr = torch.tensor(wr, dtype=torch.float32)
+        return 1 / (1 + torch.exp(-s_wr * (wr - c_wr)))
+
+def normalize_pickban(pb ,s_pb_1=25.0, s_pb_2=5.0,
+                       c_pb_1=0.20,c_pb_2=0.80,
+                       w_pb=0.55):
+    pb = torch.tensor(pb, dtype=torch.float32)
+    s1 = 1 / (1 + torch.exp(-s_pb_1 * (pb - c_pb_1)))
+    s2 = 1 / (1 + torch.exp(-s_pb_2 * (pb - c_pb_2)))
+    return w_pb * s1 + (1 - w_pb) * s2
+
+def normalize_ELO(ELO, mu=1500, sigma=200):
+    return 1 / (1 + torch.exp(-(ELO - mu) / sigma))
