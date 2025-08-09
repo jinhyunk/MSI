@@ -104,7 +104,7 @@ class Encoder_position(nn.Module):
         h = self.mlp(x)                # (5, 8)
         attn_scores = self.attn(h)     # (5, 1)
         attn_weights = torch.softmax(attn_scores, dim=0)  # (5, 1)
-        out = (attn_weights * h).sum(dim=0)  # (1, 8)
+        out = (attn_weights * h).sum(dim=0, keepdim=True)  # (1, 8)
         return out
 
 class Encoder_ELO(nn.Module):
