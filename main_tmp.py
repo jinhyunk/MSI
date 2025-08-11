@@ -27,10 +27,20 @@ def main(args):
     ELO = torch.tensor([ELO_B], dtype=torch.float32)
     ELO = ELO.view(-1, 1)
     
-    Model = Model_wr()
-    out = Model(data_match[0]["B"],ELO,data_match[0]["pb_B"])
-    print(out.item())
-
+    bp = data_match[0]["pb_B"]
+    idx_champ = Find_champion_idx(bp[0])
+    print(idx_champ)
+    po_graph = load_power(idx_champ,0)
+    print(po_graph['po_rank_kr'])
+    print(len(po_graph['po_rank_kr']))
+    print(type(po_graph['po_rank_kr']))
+    Model_po = Loader_po(Loader_po,reader_po,stacker_region)
+    output = reader_po(po_graph)
+    print(output)
+    # graph_team_time_wr(output["po_kr"],0)
+    # graph_team_time_wr(output["po_eu"],0)
+    # graph_team_time_wr(output["po_na"],0)
+    
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

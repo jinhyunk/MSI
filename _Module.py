@@ -82,6 +82,32 @@ class Loader_champ(nn.Module):
 
         return output
 
+class Loader_po(nn.Module):
+    def __init__(self,
+                 loader,
+                 reader,
+                 stacker,
+                 factor = 50.0,
+                 ):
+        super().__init__()
+        self.loader = loader
+        self.factor = factor
+        self.enc = reader
+        self.stacker = stacker
+
+    def forward(self, pb):
+        result = []
+        for pos_idx in range(0,len(pb)):
+            idx_champion = Find_champion_idx(pb[pos_idx])
+            data = self.loader(idx_champion,pos_idx)
+            out_dict = self.enc(data,self.factor)
+            out_tensor = self.stacker(out_dict)  
+            result.append(out_tensor)
+
+        output = torch.stack(result)  # shape: (5, R, D)
+
+        return output
+    
 def stacker_region(data_region):
     tensors = []
 
@@ -134,4 +160,24 @@ def reader_lg(data_champ,encoder):
         if pb_key in data_champ and wr_key in data_champ:
             output[out_key] = encoder(data_champ[wr_key],data_champ[pb_key])
         
+    return output
+
+
+def reader_po(data_champ,factor=50.0):
+    def calc_po(po):
+        po = po - po.mean() 
+        scaled = factor * po
+        sigmoid = 1 / (1 + np.exp(-scaled))
+        
+        return 2 * sigmoid - 1
+    
+    output = {}
+    time_key = f'time'
+    output[time_key] = torch.arange(5.0, 36.0, 1.0)
+    for region in regions:
+        po_key = f'po_rank_{region}'
+        out_key = f'po_{region}'
+        if po_key in data_champ:
+            output[out_key] = calc_po(data_champ[po_key])
+
     return output

@@ -130,7 +130,17 @@ class Encoder_ELO(nn.Module):
         output = self.embedding(ELO_nm)
 
         return output
+
+class Encoder_time(nn.Module):
+    def __init__(self,
+                 ):
+        super().__init__()
     
+    def forward(self,po_wr,time,bias):
+        pred_gold = calc_wr_gold(po_wr,time)
+        
+        return 
+
 class MLP(nn.Module):
     def __init__(self,
                  in_size = 16,

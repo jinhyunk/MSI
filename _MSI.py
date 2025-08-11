@@ -4,7 +4,7 @@ import torch.nn as nn
 from _Model import * 
 from _Module import * 
 
-class MSI(nn.Module):
+class Model_wr(nn.Module):
     def __init__(self,
                  s_rank = 40.0,
                  s_lg = 10.0,
@@ -74,3 +74,18 @@ class MSI(nn.Module):
         result = self.MLP(out)
 
         return result
+    
+class Model_time(nn.Module):
+    def __init__(self,
+                 emb_size_enc = 4,
+                 emb_size_sum = 2,
+                 ):
+        super().__init__()
+        self.sum_po = Encoder_region(len(regions),
+                                     emb_size_enc,emb_size_sum)
+        self.enc_time = Encoder_time()
+    
+    def forward(self,po,time,bias):
+        output = self.embedding(input)
+
+        return output
