@@ -1,7 +1,10 @@
 import json
 import math
+import torch 
+
 import pandas as pd 
 import numpy as np 
+import os 
 
 from _Config import PLAYER_CACHE
 
@@ -105,7 +108,7 @@ def Find_player(team_name, pos_idx, file_path="./json/roster.json"):
                 return selected_players[choice]
         print("Invalid input. Please try again.")
 
-def Find_ELO(match_idx,team1,team2,file_path="./json/ELO.json"):
+def Find_ELO(match_idx,team,file_path="./json/ELO.json"):
     
     with open(file_path, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -113,22 +116,36 @@ def Find_ELO(match_idx,team1,team2,file_path="./json/ELO.json"):
     for match_data in data:
         if match_data["Match"] == str(match_idx):
             elo_list = match_data["ELO"]
-            team1_elo = None
-            team2_elo = None
+            team_elo = None
 
             for team_data in elo_list:
-                if team1 in team_data:
-                    team1_elo = team_data[team1]
-                if team2 in team_data:
-                    team2_elo = team_data[team2]
+                if team in team_data:
+                    team_elo = team_data[team]
 
-            if team1_elo is not None and team2_elo is not None:
-                return team1_elo, team2_elo
+            if team_elo is not None:
+                ELO = torch.tensor([team_elo], dtype=torch.float32)
+                ELO = ELO.view(-1, 1)
+                return ELO
             else:
-                print(f"⚠️ 팀 정보를 찾을 수 없음: {team1}, {team2}")
+                print(f"⚠️ 팀 정보를 찾을 수 없음: {team}")
                 return None
 
     print(f"❌ Match ID '{match_idx}'를 찾을 수 없음.")
+    return None
+
+def Find_po(champion,pos_idx,file_path="./json/po/"):
+    file_path_line = file_path + f"{pos_idx}.json"
+    
+    if not os.path.exists(file_path_line):
+        return None
+    
+    with open(file_path_line, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    
+    for champ_name in data.keys():
+        if champ_name.lower() == champion.lower():
+            return data[champ_name]  # 챔피언 데이터 전체 반환
+    
     return None
 
 def replace_champion_names(pick_list):
@@ -141,22 +158,12 @@ def replace_champion_names(pick_list):
     "Dr.Mundo" : "Dr. Mundo",
     "JarvanIV" : "Jarvan IV",
     "AurelionSol": "Aurelion Sol",
-    "TahmKench": "Tahm Kench"
+    "TahmKench": "Tahm Kench",
+    "KSante": "K'Sante",
+    "Kaisa": "Kai'Sa",
+    "Chogath":"Cho'Gath",
+    "KhaZix" : "Kha'Zix",
+    "Nunu" : "Nunu & Willump"
     }
     return [replace_dict.get(champ, champ) for champ in pick_list]
 
-def init_weights(region_code, scale=5.0):
-    
-    region_map = {0: 0, 1: 1, 3: 2}
-    if region_code not in region_map:
-        raise ValueError(f"Unsupported region_code: {region_code}")
-    
-    idx = region_map[region_code]
-    
-    logits = np.zeros(3)
-    logits[idx] = scale  # 해당 지역 강조
-    
-    exp_logits = np.exp(logits)
-    weights = exp_logits / np.sum(exp_logits)
-    
-    return weights

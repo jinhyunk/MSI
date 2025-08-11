@@ -38,12 +38,15 @@ class Loader_match(nn.Module):
         pb_r_raw = data_game["red_picks"]
         pb_b = replace_champion_names(pb_b_raw)
         pb_r = replace_champion_names(pb_r_raw)
+        
+        gold_diff = data_game['gold_diff'][1:]
 
         return {
             "B":team_b,
             "R":team_r,
             "pb_B":pb_b,
-            "pb_R":pb_r
+            "pb_R":pb_r,
+            'gold_diff':gold_diff
         }
         
     def __init__(self,):
@@ -84,28 +87,27 @@ class Loader_champ(nn.Module):
 
 class Loader_po(nn.Module):
     def __init__(self,
+                 nm,
                  loader,
                  reader,
                  stacker,
-                 factor = 50.0,
                  ):
         super().__init__()
+        self.nm = nm
         self.loader = loader
-        self.factor = factor
         self.enc = reader
         self.stacker = stacker
 
-    def forward(self, pb):
+    def forward(self,time,pb):
         result = []
         for pos_idx in range(0,len(pb)):
-            idx_champion = Find_champion_idx(pb[pos_idx])
-            data = self.loader(idx_champion,pos_idx)
-            out_dict = self.enc(data,self.factor)
+            data = self.loader(time,pb[pos_idx],pos_idx)
+            out_dict = self.enc(data,self.nm)
             out_tensor = self.stacker(out_dict)  
             result.append(out_tensor)
 
         output = torch.stack(result)  # shape: (5, R, D)
-
+        
         return output
     
 def stacker_region(data_region):
@@ -162,22 +164,13 @@ def reader_lg(data_champ,encoder):
         
     return output
 
-
-def reader_po(data_champ,factor=50.0):
-    def calc_po(po):
-        po = po - po.mean() 
-        scaled = factor * po
-        sigmoid = 1 / (1 + np.exp(-scaled))
-        
-        return 2 * sigmoid - 1
-    
+def reader_po(data_champ,encoder):
     output = {}
-    time_key = f'time'
-    output[time_key] = torch.arange(5.0, 36.0, 1.0)
     for region in regions:
-        po_key = f'po_rank_{region}'
-        out_key = f'po_{region}'
-        if po_key in data_champ:
-            output[out_key] = calc_po(data_champ[po_key])
-
+        wr_key = f'po_{region}'
+        out_key = f'result_rank_{region}'
+        if wr_key in data_champ:
+            output[out_key] = encoder(data_champ[wr_key]).reshape(-1,1)
+        
     return output
+

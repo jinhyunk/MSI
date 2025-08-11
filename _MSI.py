@@ -4,7 +4,7 @@ import torch.nn as nn
 from _Model import * 
 from _Module import * 
 
-class Model_wr(nn.Module):
+class Model_MSI(nn.Module):
     def __init__(self,
                  s_rank = 40.0,
                  s_lg = 10.0,
@@ -27,7 +27,7 @@ class Model_wr(nn.Module):
                                       emb_size=emb_size_enc,out_size=1,
                                       c_wr=c_wr)
         self.enc_player = Encoder_player(init_s_wr=s_player_wr,init_s_game=s_player_game,
-                                         emb_size=emb_size_enc,out_size=emb_size_sum*2,
+                                         emb_size=emb_size_enc,out_size=emb_size_sum,
                                          c_wr=c_wr,mim_game=mim_game)
 
         self.model_rank = Loader_champ(self.enc_rank,
@@ -36,10 +36,13 @@ class Model_wr(nn.Module):
         self.model_lg = Loader_champ(self.enc_lg,
                                      load_league,reader_lg,
                                      stacker_league)
-        
+
         self.model_player = Loader_player(self.enc_player)
 
-        self.sum_rank = Encoder_region(len(regions),
+        self.model_po = Loader_po(self.enc_rank.normalizer,
+                                  load_power,reader_po,stacker_region)
+
+        self.sum_region = Encoder_region(len(regions),
                                        emb_size_enc,emb_size_sum)
         self.sum_lg = Encoder_region(len(leagues),
                                      emb_size_enc,emb_size_sum)
@@ -56,18 +59,28 @@ class Model_wr(nn.Module):
                        emb_size = 16 * emb_size_sum,
                        out_size = 1)
         
+        self.ELO = Find_ELO
+        
     def forward_sep(self,input,loader,encoder):
         out_enc = loader(input)
         out_final = encoder(out_enc)
         return out_final
     
+    def forward_po(self,time,pb,loader,encoder):
+        out_enc = loader(time,pb)
+        out_final = encoder(out_enc)
+        return out_final
+        
 
-    def forward(self,team,ELO,pb):
-        result_rank = self.forward_sep(pb,self.model_rank,self.sum_rank)
+    def forward(self,time,team,pb,idx_match):
+        result_rank = self.forward_sep(pb,self.model_rank,self.sum_region)
         result_lg = self.forward_sep(pb,self.model_lg,self.sum_lg)
         result_player = self.model_player(team,pb)
+        result_po = self.forward_po(time,pb,self.model_po,self.sum_region)
+        
+        result_champion = self.enc_position(result_rank,result_lg,result_player,result_po)
 
-        result_champion = self.enc_position(result_rank,result_lg,result_player)
+        ELO = self.ELO(idx_match,team)
         result_ELO = self.enc_ELO(ELO)
 
         out = torch.cat([result_champion,result_ELO],dim=1)
@@ -75,17 +88,3 @@ class Model_wr(nn.Module):
 
         return result
     
-class Model_time(nn.Module):
-    def __init__(self,
-                 emb_size_enc = 4,
-                 emb_size_sum = 2,
-                 ):
-        super().__init__()
-        self.sum_po = Encoder_region(len(regions),
-                                     emb_size_enc,emb_size_sum)
-        self.enc_time = Encoder_time()
-    
-    def forward(self,po,time,bias):
-        output = self.embedding(input)
-
-        return output

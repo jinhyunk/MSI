@@ -16,16 +16,18 @@ class Encoder_champ(nn.Module):
         super().__init__()
         self.c_wr = c_wr
         self.s_wr = nn.Parameter(torch.tensor(init_s_wr, dtype=torch.float32))
-        self.normalize = normalize_winrate
         self.embedding = nn.Sequential(
             nn.Linear(2, emb_size),
             nn.ReLU(),
             nn.Linear(emb_size, out_size),
             nn.ReLU()  # 0~1 사이 값으로 정규화
         )
+    
+    def normalizer(self,wr):
+        return normalize_winrate(wr,self.s_wr,self.c_wr)
 
     def forward(self, wr, pb):
-        wr_norm = self.normalize(wr,self.s_wr,self.c_wr)
+        wr_norm = self.normalizer(wr)
         pb = torch.tensor(pb, dtype=torch.float32)
         enc_input = torch.stack([wr_norm,pb])
         output = self.embedding(enc_input)
@@ -99,8 +101,8 @@ class Encoder_position(nn.Module):
         )
         self.attn = nn.Linear(output_dim, 1)  # Attention score per position
 
-    def forward(self, rank,lg,player):
-        x = torch.cat([rank, lg, player], dim=1)
+    def forward(self,rank,lg,player,po):
+        x = torch.cat([rank, lg, player,po], dim=1)
         h = self.mlp(x)                # (5, 8)
         attn_scores = self.attn(h)     # (5, 1)
         attn_weights = torch.softmax(attn_scores, dim=0)  # (5, 1)
@@ -131,16 +133,34 @@ class Encoder_ELO(nn.Module):
 
         return output
 
-class Encoder_time(nn.Module):
+class Encoder_po(nn.Module):
     def __init__(self,
+                 #Param
+                 init_s_wr=40.0,
+                 emb_size = 4,
+                 out_size = 1,
+                 # Value
+                 c_wr=0.50,
                  ):
         super().__init__()
-    
-    def forward(self,po_wr,time,bias):
-        pred_gold = calc_wr_gold(po_wr,time)
-        
-        return 
+        self.c_wr = c_wr
+        self.s_wr = nn.Parameter(torch.tensor(init_s_wr, dtype=torch.float32))
+        self.normalize = normalize_winrate
+        self.embedding = nn.Sequential(
+            nn.Linear(2, emb_size),
+            nn.ReLU(),
+            nn.Linear(emb_size, out_size),
+            nn.ReLU()  # 0~1 사이 값으로 정규화
+        )
 
+    def forward(self, wr, pb):
+        wr_norm = self.normalize(wr,self.s_wr,self.c_wr)
+        pb = torch.tensor(pb, dtype=torch.float32)
+        enc_input = torch.stack([wr_norm,pb])
+        output = self.embedding(enc_input)
+
+        return output
+    
 class MLP(nn.Module):
     def __init__(self,
                  in_size = 16,

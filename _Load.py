@@ -11,7 +11,7 @@ from _Config import leagues,regions,region_map
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
-
+from scipy.interpolate import UnivariateSpline
 
 chrome_path = r"chromedriver.exe"
 region_map = {'0': 'kr', '1': 'eu', '3': 'na'}
@@ -19,7 +19,7 @@ pb_new = 0.005
 wr_new = 0.50
 
 
-def load_match(game_url: str):
+def load_match_golgg(game_url: str):
     service = Service(chrome_path)
     driver = webdriver.Chrome(service=service)
     driver.get(game_url)
@@ -83,15 +83,6 @@ def load_match(game_url: str):
         "R" : red_team_name
     }
 
-def load_match_saved(path,match_idx,game_name):
-    
-    match_json_path = path + '/Game/' + match_idx + "/" + game_name
-    
-    with open(match_json_path, "r", encoding="utf-8") as f:
-        match_data = json.load(f)
-
-    return match_data
-    
 def load_match_train(path="./data/Game/"):
     result = []
     for match in os.listdir(path):
@@ -129,7 +120,6 @@ def load_league(champion_name,lane,path='./data/League/'):
         row = df[df['Champion'] == champion_name]
 
         if row.empty:
-            print(f"❌ '{champion_name}'에 대한 데이터가 {region}에 존재하지 않습니다.")
             result[f'pb_lg_{region}'] = pb_new
             result[f'wr_lg_{region}'] = wr_new
         else:
@@ -159,7 +149,6 @@ def load_rank(champion_name, lane, path='./data/Rank/'):
         row = df[df['Champion'] == champion_name]
 
         if row.empty:
-            print(f"❌ '{champion_name}'에 대한 데이터가 {region_name}에 존재하지 않습니다.")
             result[f'pb_rank_{region_name}'] = pb_new
             result[f'wr_rank_{region_name}'] = wr_new
         else:
@@ -168,8 +157,38 @@ def load_rank(champion_name, lane, path='./data/Rank/'):
 
     return result
 
-def load_power(champion_int,lane,version=123,tier=3):
+def load_mastery(champion_name,team,player,path='./data/Gamer/'):
+    file_path = path + team + '/' + player + '.csv' 
+    df = pd.read_csv(file_path)
+    row = df[df['Champion']==champion_name]
+    
+    if row.empty:
+        return pb_new, wr_new
+
+    game = row['Game'].values[0]
+    winrate = row['WinRate'].values[0]
+
+    return game, winrate
+
+def load_player(team,champion,pos_idx):
+    player_name = Find_player(team,pos_idx)
+    champs_idx = Find_champion_idx(champion)
+    
+    if champs_idx == None:
+        print(f"❌ '{champion}'에 해당하는 데이터 인덱스가 존재하지 않습니다.")
+    game,wr_player = load_mastery(champion,team,player_name)
+    
+    return {
+        "Gamer": player_name,
+        "game_gamer": game,
+        "wr_gamer": wr_player,
+    }
+
+def load_power_ps(champion_int,lane,version=123,tier=3):
     result = {}
+    time_key = f'time'
+    times = np.arange(5.0, 36.0, 1.0) / 35.0
+    result[time_key] = times
 
     for region_code, region_name in region_map.items():
         url = f"https://lol.ps/api/champ/{champion_int}/graphs.json"
@@ -198,47 +217,59 @@ def load_power(champion_int,lane,version=123,tier=3):
 
     return result
 
-def load_mastery(champion_name,team,player,path='./data/Gamer/'):
-    file_path = path + team + '/' + player + '.csv' 
-    df = pd.read_csv(file_path)
-    row = df[df['Champion']==champion_name]
-    
-    if row.empty:
-        print(f"❌ '{champion_name}'에 해당하는 게이머 기록이 존재하지 않습니다.")
-        return pb_new, wr_new
+def save_power(champion_name, lane_num, data, s=0, save_dir="./json/po/"):
+    os.makedirs(save_dir, exist_ok=True)
+    file_path = os.path.join(save_dir, f"{lane_num}.json")
 
-    game = row['Game'].values[0]
-    winrate = row['WinRate'].values[0]
+    if os.path.exists(file_path):
+        with open(file_path, "r", encoding="utf-8") as f:
+            lane_data = json.load(f)
+    else:
+        lane_data = {}
 
-    return game, winrate
+    lane_data[champion_name] = {}
+    for region in region_map.values():
+        y = data[f"po_rank_{region}"]
+        if y is not None:
+            spline = UnivariateSpline(data["time"], y, s=s)
+            # spline은 저장할 때 x, y 원본을 저장해서 나중에 재생성
+            lane_data[champion_name][region] = {
+                "time": data["time"].tolist(),
+                "y": y.tolist(),
+                "s": s
+            }
 
-def load_player(team,champion,pos_idx):
-    player_name = Find_player(team,pos_idx)
-    champs_idx = Find_champion_idx(champion)
-    
-    if champs_idx == None:
-        print(f"❌ '{champion}'에 해당하는 데이터 인덱스가 존재하지 않습니다.")
-    game,wr_player = load_mastery(champion,team,player_name)
-    
-    return {
-        "Gamer": player_name,
-        "game_gamer": game,
-        "wr_gamer": wr_player,
-    }
-    
-def load_champion(champion,pos_idx):
-    result = {}
-    champs_idx = Find_champion_idx(champion)
-    
-    if champs_idx == None:
-        print(f"❌ '{champion}'에 해당하는 데이터 인덱스가 존재하지 않습니다.")
-    
-    data_rank = load_rank(champion,pos_idx)
-    data_leauge = load_league(champion,pos_idx)
-    data_po = load_power(champs_idx,pos_idx)
-    
-    result.update(data_rank)
-    result.update(data_leauge)
-    result.update(data_po)
+    with open(file_path, "w", encoding="utf-8") as f:
+        json.dump(lane_data, f, ensure_ascii=False, indent=2)
 
-    return result
+    print(f"✅ Saved spline for {champion_name} in {lane_num}")
+    
+    return lane_data[champion_name]
+
+def calc_po(time_value,po_data):
+    output = {}
+    for region in regions:
+        po_key = f'{region}'
+        out_key = f'po_{region}'
+        reg_data = po_data[po_key]
+        spline = UnivariateSpline(reg_data["time"], reg_data["y"], s=reg_data["s"])
+        output[out_key] = float(spline(time_value))
+    
+    return output
+
+def load_power(time,champion,lane,version=123,tier=3,s=0):
+    data = Find_po(champion,lane)
+    if data is None:
+        champion_idx = Find_champion_idx(champion)
+
+        if champion_idx is None:
+            print(f"Champion {champion} not found in champion json.")
+            exit()
+    
+        print(f"Champion {champion} po is not found in po json.")
+        data_ps = load_power_ps(champion_idx,lane,version,tier)
+        data = save_power(champion,lane,data_ps,s)
+    
+    po_time = calc_po(time,data)
+
+    return po_time 
