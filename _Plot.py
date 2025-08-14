@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-def graph_team_time_wr(time_wr,threshold=50):
+def graph_team_time_wr(time_wr,threshold=0.50):
     x = list(range(5, 5 + len(time_wr)))
     
     plt.figure(figsize=(10,5))

@@ -4,7 +4,7 @@ import torch.nn as nn
 from _Model import * 
 from _Module_gpu import * 
 
-class Model_MSI_Batch(nn.Module):
+class Model_MSI(nn.Module):
     def __init__(self,
                  s_rank = 40.0,
                  s_lg = 10.0,
@@ -47,9 +47,9 @@ class Model_MSI_Batch(nn.Module):
         self.sum_lg = Encoder_region(len(leagues),
                                      emb_size_enc,emb_size_sum)
         
-        self.enc_position = Encoder_position(input_dim=4*emb_size_sum,
-                                             hidden_dim=8*emb_size_sum,
-                                             output_dim=4*emb_size_sum)
+        self.enc_position = Encoder_position(in_size=4*emb_size_sum,
+                                             emb_size=8*emb_size_sum,
+                                             out_size=4*emb_size_sum)
         
         self.enc_ELO = Encoder_ELO(emb_size=8*emb_size_sum,
                                    out_size=4*emb_size_sum,

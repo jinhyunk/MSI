@@ -109,7 +109,7 @@ def main(args):
         print("CPU 사용")
 
     # ===== 모델 & 옵티마이저 =====
-    Model = Model_MSI_Batch().to(device)
+    Model = Model_MSI().to(device)
     total_params = sum(p.numel() for p in Model.parameters())
     trainable_params = sum(p.numel() for p in Model.parameters() if p.requires_grad)
     print(f"총 파라미터 수: {total_params:,}, 학습 가능 파라미터 수: {trainable_params:,}")

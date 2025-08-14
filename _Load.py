@@ -83,6 +83,29 @@ def load_match_golgg(game_url: str):
         "R" : red_team_name
     }
 
+def load_match_test(path="./data/Game_test_final/"):
+    result = []
+    for match in os.listdir(path):
+        match_path = os.path.join(path, match)
+        data_game = []
+        for file in os.listdir(match_path):
+            file_path = os.path.join(match_path, file)
+            try:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    game_data = json.load(f)
+                data_game.append({
+                    "game_name": file,
+                    "game_data": game_data
+                })
+            except Exception as e:
+                print(f"❌ Failed to load '{file_path}':", e)
+        match_data = {
+            "match_idx": match,
+            "data_game": data_game
+        }
+        result.append(match_data)
+    return result
+
 def load_match_train(path="./data/Game/"):
     result = []
     for match in os.listdir(path):

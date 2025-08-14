@@ -4,6 +4,7 @@ import torch.nn as nn
 from _Calc import *
 from _utils import * 
 
+d_enc = 4
 
 class Sine(nn.Module):
     def __init__(self, w0=30.0):
@@ -28,6 +29,32 @@ def siren_init(m, w0=30.0, is_first=False):
             if m.bias is not None:
                 m.bias.fill_(0)
 
+class Embedding(nn.Module):
+    def __init__(self, input_dim, emb_dim, out_dim, depth=2, w0=30.0):
+        super().__init__()
+        layers = []
+        
+        layers.append(nn.Linear(input_dim, emb_dim))
+        layers.append(Sine(w0))
+
+        for _ in range(depth - 1):
+            layers.append(nn.Linear(emb_dim, emb_dim))
+            layers.append(Sine(w0))
+
+        # 출력층
+        layers.append(nn.Linear(emb_dim, out_dim))
+        layers.append(Sine(w0))
+
+        self.net = nn.Sequential(*layers)
+
+        # Siren 초기화 적용
+        for idx, layer in enumerate(self.net):
+            if isinstance(layer, nn.Linear):
+                siren_init(layer, w0=w0, is_first=(idx == 0))
+
+    def forward(self, x):
+        return self.net(x)
+    
 class Encoder_champ(nn.Module):
     def __init__(self,
                  init_s_wr=40.0,
@@ -40,15 +67,7 @@ class Encoder_champ(nn.Module):
         self.c_wr = c_wr
         self.register_buffer('s_wr', torch.tensor(init_s_wr, dtype=torch.float32))
 
-        self.embedding = nn.Sequential(
-            nn.Linear(2, emb_size),
-            Sine(w0),
-            nn.Linear(emb_size, out_size),
-            Sine(w0)
-        )
-        # 초기화
-        self.embedding[0].apply(lambda m: siren_init(m, w0=w0, is_first=True))
-        self.embedding[2].apply(lambda m: siren_init(m, w0=w0, is_first=False))
+        self.embedding = Embedding(2,emb_size,out_size,d_enc,w0)
 
     
     def normalizer(self,wr):
@@ -85,15 +104,7 @@ class Encoder_player(nn.Module):
         self.normalize_wr = normalize_winrate
         self.normalize_ms = normalize_mastery
 
-        self.embedding = nn.Sequential(
-            nn.Linear(2, emb_size),
-            Sine(w0),
-            nn.Linear(emb_size, out_size),
-            Sine(w0)
-        )
-        # 초기화
-        self.embedding[0].apply(lambda m: siren_init(m, w0=w0, is_first=True))
-        self.embedding[2].apply(lambda m: siren_init(m, w0=w0, is_first=False))
+        self.embedding = Embedding(2,emb_size,out_size,d_enc,w0)
     
     def forward(self,game,wr):
         wr_norm = self.normalize_wr(wr,self.s_wr,self.c_wr)
@@ -112,15 +123,7 @@ class Encoder_region(nn.Module):
                  w0 = 30,
                  ):
         super().__init__()
-        self.embedding = nn.Sequential(
-            nn.Linear(n_list, emb_size),
-            Sine(w0),
-            nn.Linear(emb_size, out_size),
-            Sine(w0)
-        )
-        # 초기화
-        self.embedding[0].apply(lambda m: siren_init(m, w0=w0, is_first=True))
-        self.embedding[2].apply(lambda m: siren_init(m, w0=w0, is_first=False))
+        self.embedding = self.embedding = Embedding(n_list,emb_size,out_size,d_enc,w0)
 
     def forward(self,input_stack):
         output = self.embedding(input_stack)
@@ -128,18 +131,10 @@ class Encoder_region(nn.Module):
         return output
 
 class Encoder_position(nn.Module):
-    def __init__(self, input_dim=8, hidden_dim=16, output_dim=8, w0=30):
+    def __init__(self, in_size=8, emb_size=16, out_size=8, w0=30):
         super().__init__()
-        self.mlp = nn.Sequential(
-            nn.Linear(input_dim, hidden_dim),
-            Sine(w0),
-            nn.Linear(hidden_dim, output_dim),
-            Sine(w0)
-        )
-        # 초기화
-        self.mlp[0].apply(lambda m: siren_init(m, w0=w0, is_first=True))
-        self.mlp[2].apply(lambda m: siren_init(m, w0=w0, is_first=False))
-        self.attn = nn.Linear(output_dim, 1)  # Attention score per position
+        self.mlp = Embedding(in_size,emb_size,out_size,d_enc,w0)
+        self.attn = nn.Linear(out_size, 1)  # Attention score per position
 
     def forward(self,rank,lg,player,po):
         x = torch.cat([rank, lg, player,po], dim=1)
@@ -161,15 +156,7 @@ class Encoder_ELO(nn.Module):
         self.normalize = normalize_ELO
         self.mu = mu
         self.sigma = sigma
-        self.embedding = nn.Sequential(
-            nn.Linear(1, emb_size),
-            Sine(w0),
-            nn.Linear(emb_size, out_size),
-            Sine(w0)
-        )
-        # 초기화
-        self.embedding[0].apply(lambda m: siren_init(m, w0=w0, is_first=True))
-        self.embedding[2].apply(lambda m: siren_init(m, w0=w0, is_first=False))
+        self.embedding = Embedding(1,emb_size,out_size,d_enc,w0)
 
     def forward(self,ELO):
         ELO_nm = self.normalize(ELO,self.mu,self.sigma)
@@ -191,15 +178,7 @@ class Encoder_po(nn.Module):
         self.c_wr = c_wr
         self.register_buffer('s_wr', torch.tensor(init_s_wr, dtype=torch.float32))
         self.normalize = normalize_winrate
-        self.embedding = nn.Sequential(
-            nn.Linear(2, emb_size),
-            Sine(w0),
-            nn.Linear(emb_size, out_size),
-            Sine(w0)
-        )
-        # 초기화
-        self.embedding[0].apply(lambda m: siren_init(m, w0=w0, is_first=True))
-        self.embedding[2].apply(lambda m: siren_init(m, w0=w0, is_first=False))
+        self.embedding = Embedding(2,emb_size,out_size,d_enc,w0)
 
     def forward(self, wr, pb):
         wr_norm = self.normalize(wr,self.s_wr,self.c_wr)
@@ -217,21 +196,7 @@ class MLP(nn.Module):
                  w0=30.0
                  ):
         super().__init__()
-        self.embedding = nn.Sequential(
-            nn.Linear(in_size, emb_size),
-            Sine(w0),
-            nn.Linear(emb_size, emb_size),
-            Sine(w0),
-            nn.Linear(emb_size, emb_size),
-            Sine(w0),
-            nn.Linear(emb_size, out_size),
-            Sine(w0)
-        )
-        # 초기화
-        self.embedding[0].apply(lambda m: siren_init(m, w0=w0, is_first=True))
-        self.embedding[2].apply(lambda m: siren_init(m, w0=w0, is_first=False))
-        self.embedding[4].apply(lambda m: siren_init(m, w0=w0, is_first=False))
-        self.embedding[6].apply(lambda m: siren_init(m, w0=w0, is_first=False))
+        self.embedding = Embedding(in_size,emb_size,out_size,8,w0)
 
     def forward(self,input):
         output = self.embedding(input)
