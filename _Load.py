@@ -248,6 +248,14 @@ def save_power(champion_name, lane_num, data, s=0, save_dir="./json/po/"):
 
 def calc_po(time_value,po_data):
     output = {}
+    # GPU 텐서인 경우 CPU로 이동 후 numpy로 변환
+    if hasattr(time_value, 'device') and time_value.device.type == 'cuda':
+        time_value = time_value.cpu().numpy()
+    elif hasattr(time_value, 'numpy'):
+        time_value = time_value.numpy()
+    else:
+        time_value = float(time_value)
+    
     for region in regions:
         po_key = f'{region}'
         out_key = f'po_{region}'

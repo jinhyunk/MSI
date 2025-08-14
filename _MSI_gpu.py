@@ -2,9 +2,9 @@ import torch
 import torch.nn as nn
 
 from _Model import * 
-from _Module import * 
+from _Module_gpu import * 
 
-class Model_MSI(nn.Module):
+class Model_MSI_Batch(nn.Module):
     def __init__(self,
                  s_rank = 40.0,
                  s_lg = 10.0,
@@ -70,26 +70,44 @@ class Model_MSI(nn.Module):
         out_enc = loader(time,pb)
         out_final = encoder(out_enc)
         return out_final
+    
+    def forward_batch(self, times, teams, pbs, idx_matches):
+        """배치 처리를 위한 forward 함수"""
+        batch_size = len(teams)
+        device = next(self.parameters()).device
         
-
-    def forward(self,time,team,pb,idx_match):
-        result_rank = self.forward_sep(pb,self.model_rank,self.sum_region)
-        result_lg = self.forward_sep(pb,self.model_lg,self.sum_lg)
-        result_player = self.model_player(team,pb)
-        result_po = self.forward_po(time,pb,self.model_po,self.sum_region)
+        # 배치 결과를 저장할 텐서들
+        results = torch.zeros(batch_size, 1, device=device)
         
-        result_champion = self.enc_position(result_rank,result_lg,result_player,result_po)
-
-        ELO = self.ELO(idx_match,team)
+        for i in range(batch_size):
+            results[i] = self.forward_single(times[i], teams[i], pbs[i], idx_matches[i])
+        
+        return results
+    
+    def forward_single(self, time, team, pb, idx_match):
+        """단일 샘플 처리용 forward 함수"""
+            
+        result_rank = self.forward_sep(pb, self.model_rank, self.sum_region)
+        result_lg = self.forward_sep(pb, self.model_lg, self.sum_lg)
+        result_player = self.model_player(team, pb)
+        result_po = self.forward_po(time, pb, self.model_po, self.sum_region)
+        
+        result_champion = self.enc_position(result_rank, result_lg, result_player, result_po)
+        
+        ELO = self.ELO(idx_match, team)
         # ELO를 텐서로 변환하고 올바른 device로 이동
         if not isinstance(ELO, torch.Tensor):
             ELO = torch.tensor([ELO], dtype=torch.float32, device=result_champion.device)
         else:
             ELO = ELO.to(result_champion.device)
+        
+        
         result_ELO = self.enc_ELO(ELO)
-
-        out = torch.cat([result_champion,result_ELO],dim=1)
+        out = torch.cat([result_champion, result_ELO], dim=1)
         result = self.MLP(out)
-
+        
         return result
-    
+
+    def forward(self, time, team, pb, idx_match):
+        """기존 호환성을 위한 forward 함수"""
+        return self.forward_single(time, team, pb, idx_match)

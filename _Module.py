@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import numpy as np
 
-from _Calc import calc_mastery
 from _utils import *
 from _Load import *
 from _Config import regions,leagues,region_map
@@ -122,7 +121,9 @@ def stacker_region(data_region):
     if tensors:
         output = torch.stack(tensors).view(-1)  # (n,)
     else:
-        output = torch.tensor([])  
+        # 첫 번째 텐서의 device를 사용하거나 기본값 사용
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        output = torch.tensor([], device=device)  
 
     return output
 
@@ -138,7 +139,9 @@ def stacker_league(data_region):
     if tensors:
         output = torch.stack(tensors).view(-1)  # (n,)
     else:
-        output = torch.tensor([])  
+        # 첫 번째 텐서의 device를 사용하거나 기본값 사용
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        output = torch.tensor([], device=device)  
 
     return output
 

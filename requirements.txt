@@ -6,7 +6,7 @@ numpy==2.0.2
 pandas==2.3.1
 
 # Deep Learning
-torch==2.7.1+cpu
+torch==2.7.1+cu121
 
 # Web Scraping and Data Collection
 selenium==4.34.2
