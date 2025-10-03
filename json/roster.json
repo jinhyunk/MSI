@@ -1,0 +1,264 @@
+[
+  {
+    "team": "AL",
+    "players": [
+      {
+        "position": 0,
+        "name": "Flandre"
+      },
+      {
+        "position": 1,
+        "name": "Tarzan"
+      },
+      {
+        "position": 2,
+        "name": "Shanks"
+      },
+      {
+        "position": 3,
+        "name": "Hope"
+      },
+      {
+        "position": 4,
+        "name": "Kael"
+      }
+    ]
+  },
+  {
+    "team": "BLG",
+    "players": [
+      {
+        "position": 0,
+        "name": "Bin"
+      },
+      {
+        "position": 1,
+        "name": "Beichuan"
+      },
+      {
+        "position": 2,
+        "name": "Knight"
+      },
+      {
+        "position": 3,
+        "name": "Elk"
+      },
+      {
+        "position": 4,
+        "name": "On"
+      }
+    ]
+  },
+  {
+    "team": "CFO",
+    "players": [
+      {
+        "position": 0,
+        "name": "Driver"
+      },
+      {
+        "position": 0,
+        "name": "Rest"
+      },
+      {
+        "position": 1,
+        "name": "Junjia"
+      },
+      {
+        "position": 2,
+        "name": "HongQ"
+      },
+      {
+        "position": 3,
+        "name": "Doggo"
+      },
+      {
+        "position": 4,
+        "name": "Kaiwing"
+      }
+    ]
+  },
+  {
+    "team": "FLY",
+    "players": [
+      {
+        "position": 0,
+        "name": "Bwipo"
+      },
+      {
+        "position": 1,
+        "name": "Inspired"
+      },
+      {
+        "position": 2,
+        "name": "Quad"
+      },
+      {
+        "position": 3,
+        "name": "Massu"
+      },
+      {
+        "position": 4,
+        "name": "Busio"
+      }
+    ]
+  },
+  {
+    "team": "FUR",
+    "players": [
+      {
+        "position": 0,
+        "name": "Guigo"
+      },
+      {
+        "position": 1,
+        "name": "Tatu"
+      },
+      {
+        "position": 2,
+        "name": "Tutsz"
+      },
+      {
+        "position": 3,
+        "name": "Ayu"
+      },
+      {
+        "position": 4,
+        "name": "Jojo"
+      }
+    ]
+  },
+  {
+    "team": "G2",
+    "players": [
+      {
+        "position": 0,
+        "name": "Brokenblade"
+      },
+      {
+        "position": 1,
+        "name": "Skewmond"
+      },
+      {
+        "position": 2,
+        "name": "Caps"
+      },
+      {
+        "position": 3,
+        "name": "Hans_Sama"
+      },
+      {
+        "position": 4,
+        "name": "Labrov"
+      }
+    ]
+  },
+  {
+    "team": "GAM",
+    "players": [
+      {
+        "position": 0,
+        "name": "Kiaya"
+      },
+      {
+        "position": 1,
+        "name": "Levi"
+      },
+      {
+        "position": 2,
+        "name": "Emo"
+      },
+      {
+        "position": 2,
+        "name": "Aress"
+      },
+      {
+        "position": 3,
+        "name": "Artemis"
+      },
+      {
+        "position": 3,
+        "name": "EasyLove"
+      },
+      {
+        "position": 4,
+        "name": "Elio"
+      }
+    ]
+  },
+  {
+    "team": "GEN",
+    "players": [
+      {
+        "position": 0,
+        "name": "Kiin"
+      },
+      {
+        "position": 1,
+        "name": "Canyon"
+      },
+      {
+        "position": 2,
+        "name": "Chovy"
+      },
+      {
+        "position": 3,
+        "name": "Ruler"
+      },
+      {
+        "position": 4,
+        "name": "Duro"
+      }
+    ]
+  },
+  {
+    "team": "MKO",
+    "players": [
+      {
+        "position": 0,
+        "name": "Myrwn"
+      },
+      {
+        "position": 1,
+        "name": "Elyoya"
+      },
+      {
+        "position": 2,
+        "name": "jojopyun"
+      },
+      {
+        "position": 3,
+        "name": "Supa"
+      },
+      {
+        "position": 4,
+        "name": "Alvaro"
+      }
+    ]
+  },
+  {
+    "team": "T1",
+    "players": [
+      {
+        "position": 0,
+        "name": "Doran"
+      },
+      {
+        "position": 1,
+        "name": "Oner"
+      },
+      {
+        "position": 2,
+        "name": "Faker"
+      },
+      {
+        "position": 3,
+        "name": "Gumayusi"
+      },
+      {
+        "position": 4,
+        "name": "Keria"
+      }
+    ]
+  }
+]

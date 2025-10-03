@@ -1,247 +1,306 @@
-# data_loader_refactored.py
-import os
-import json
-import re
 import time
+import re
+import json
 import requests
-import pandas as pd
-import numpy as np
-from scipy.interpolate import UnivariateSpline
+import pandas as pd 
+import numpy as np 
+import os 
+
+from _utils import * 
+from _Config import leagues,regions,region_map
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
-from functools import lru_cache
+from scipy.interpolate import UnivariateSpline
 
-# --- 상수 정의 ---
-PB_NEW = 0.005
-WR_NEW = 0.50
+chrome_path = r"chromedriver.exe"
+region_map = {'0': 'kr', '1': 'eu', '3': 'na'}
+pb_new = 0.005
+wr_new = 0.50
 
-# --- 헬퍼 함수 (이전 data_loader.py에서 가져옴) ---
-from _utils import find_player, find_champion_id, DataManager as BaseDataManager
 
-# ==============================================================================
-# 1. 데이터 캐싱 및 관리 클래스
-# ==============================================================================
-class DataManager(BaseDataManager):
-    """
-    기존 DataManager를 확장하여 Rank, League, Gamer CSV 데이터도 캐싱합니다.
-    """
-    def __init__(self, base_path="./data/"):
-        # BaseDataManager의 __init__ 호출 (json 로드)
-        super().__init__(base_path=os.path.join(base_path, 'json'))
-        self.data_path = base_path
-        
-        # CSV 데이터 캐싱
-        self._league_data = self._load_csv_data(os.path.join(base_path, 'League'))
-        self._rank_data = self._load_csv_data(os.path.join(base_path, 'Rank'))
-        self._gamer_data = self._load_gamer_data(os.path.join(base_path, 'Gamer'))
+def load_match_golgg(game_url: str):
+    service = Service(chrome_path)
+    driver = webdriver.Chrome(service=service)
+    driver.get(game_url)
+    time.sleep(5)  # JS 로딩 대기
 
-    def _load_csv_data(self, path):
-        """리그, 랭크 데이터를 딕셔너리 형태로 미리 로드합니다."""
-        data_cache = {}
-        if not os.path.exists(path): return data_cache
-        for folder in os.listdir(path):
-            folder_path = os.path.join(path, folder)
-            data_cache[folder] = {}
-            for file in os.listdir(folder_path):
-                if file.endswith('.csv'):
-                    lane = file.replace('.csv', '')
-                    file_path = os.path.join(folder_path, file)
-                    data_cache[folder][lane] = pd.read_csv(file_path).set_index('Champion')
-        return data_cache
+    soup = BeautifulSoup(driver.page_source, "html.parser")
 
-    def _load_gamer_data(self, path):
-        """게이머 데이터를 미리 로드합니다."""
-        data_cache = {}
-        if not os.path.exists(path): return data_cache
-        for team_folder in os.listdir(path):
-            team_path = os.path.join(path, team_folder)
-            data_cache[team_folder] = {}
-            for file in os.listdir(team_path):
-                if file.endswith('.csv'):
-                    player = file.replace('.csv', '')
-                    file_path = os.path.join(team_path, file)
-                    data_cache[team_folder][player] = pd.read_csv(file_path).set_index('Champion')
-        return data_cache
+    # ▶ 밴픽 정보 추출
+    champion_imgs = soup.select('img[src*="/_img/champions_icon/"]')
+    champion_names = [img['src'].split('/')[-1].replace('.png', '') for img in champion_imgs]
 
-    def get_league_stats(self, league, lane, champion):
-        df = self._league_data.get(league, {}).get(str(lane))
-        if df is None or champion not in df.index:
-            return {'pb': PB_NEW, 'wr': WR_NEW}
-        row = df.loc[champion]
-        return {'pb': row['PickBanRate'], 'wr': row['WinRate']}
+    team1_bans = champion_names[0:5]
+    team1_picks = champion_names[5:10]
+    team2_bans = champion_names[10:15]
+    team2_picks = champion_names[15:20]
 
-    def get_rank_stats(self, region_code, lane, champion):
-        df = self._rank_data.get(str(region_code), {}).get(str(lane))
-        if df is None or champion not in df.index:
-            return {'pb': PB_NEW, 'wr': WR_NEW}
-        row = df.loc[champion]
-        return {'pb': row['PickBanRate'], 'wr': row['WinRate']}
+    # ▶ 골드 차이 추출
+    script_tags = soup.find_all("script")
+    gold_diff_data = []
 
-    def get_mastery_stats(self, team, player, champion):
-        df = self._gamer_data.get(team, {}).get(player)
-        if df is None or champion not in df.index:
-            return {'game': PB_NEW, 'wr': WR_NEW}
-        row = df.loc[champion]
-        return {'game': row['Game'], 'wr': row['WinRate']}
+    for script in script_tags:
+        if "var golddatas" in script.text:
+            golddatas_text = re.search(r"var golddatas\s*=\s*(\{.*?\});", script.text, re.DOTALL)
+            if golddatas_text:
+                js_obj_text = golddatas_text.group(1)
+                js_obj_text = re.sub(r"(\w+):", r'"\1":', js_obj_text)  # key에 큰따옴표
+                js_obj_text = js_obj_text.replace("'", '"')  # 작은따옴표 -> 큰따옴표
+                js_obj_text = re.sub(r",(\s*[}\]])", r"\1", js_obj_text)  # 끝 쉼표 제거
 
-# ==============================================================================
-# 2. PO 데이터 관리 클래스 (API, 파일 I/O, 계산)
-# ==============================================================================
-class PowerManager:
-    def __init__(self, data_manager, po_json_path="./json/po/"):
-        self.data_manager = data_manager
-        self.po_path = po_json_path
-        os.makedirs(self.po_path, exist_ok=True)
+                try:
+                    golddatas = json.loads(js_obj_text)
+                    for dataset in golddatas.get("datasets", []):
+                        if dataset.get("label") == "Gold":
+                            gold_diff_data = dataset.get("data", [])
+                            break
+                except Exception as e:
+                    print("JSON parsing error:", e)
+            break
 
-    def get_po(self, time_val, champion, lane, version=123, tier=3, s=0):
-        """PO 데이터를 가져오거나, 없으면 API 호출 후 생성하여 반환합니다."""
-        po_data = self.find_po_from_file(champion, lane)
-        
-        if po_data is None:
-            print(f"ℹ️ 로컬에서 '{champion}' PO 데이터를 찾을 수 없어 API를 호출합니다.")
-            champion_id = find_champion_id(self.data_manager, champion)
-            if champion_id is None:
-                print(f"❌ '{champion}'의 ID를 찾을 수 없습니다.")
-                return None # 혹은 기본값
-            
-            api_data = self._fetch_from_api(champion_id, lane, version, tier)
-            po_data = self._save_po_to_file(champion, lane, api_data, s)
-            if po_data is None:
-                return None
+    table = soup.find('table', class_='small_table')
+    
+    if table:
+        header_tds = table.find_all('tr')[0].find_all('td')[1:]  # 첫 td는 빈칸
+        if len(header_tds) >= 2:
+            blue_team_name = header_tds[0].text.strip()
+            red_team_name = header_tds[1].text.strip()
+        else:
+            blue_team_name = red_team_name = None
+    else:
+        blue_team_name = red_team_name = None
+    driver.quit()
 
-        return self._calculate_po_at_time(time_val, po_data)
-
-    def find_po_from_file(self, champion, lane):
-        file_path = os.path.join(self.po_path, f"{lane}.json")
-        if not os.path.exists(file_path):
-            return None
-        with open(file_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        
-        for champ_name, champ_data in data.items():
-            if champ_name.lower() == champion.lower():
-                return champ_data
-        return None
-        
-    def _fetch_from_api(self, champion_id, lane, version, tier):
-        """lol.ps API에서 데이터를 가져옵니다."""
-        result = {'time': np.arange(5.0, 36.0, 1.0) / 35.0}
-        headers = {"User-Agent": "Mozilla/5.0", "Accept": "application/json"}
-        
-        for region_code, region_name in self.data_manager.REGION_MAP.items():
-            url = f"https://lol.ps/api/champ/{champion_id}/graphs.json"
-            params = {"region": region_code, "version": version, "tier": tier, "lane": lane, "range": "two_weeks"}
-            try:
-                response = requests.get(url, params=params, headers=headers)
-                response.raise_for_status()
-                data = response.json()["data"]["timelineWinrates"]
-                result[f"po_rank_{region_name}"] = np.array(list(map(float, data))) / 100.0
-            except Exception as e:
-                print(f"❌ {region_name} - API Error: {e}")
-                result[f"po_rank_{region_name}"] = None
-        return result
-
-    def _save_po_to_file(self, champion, lane, api_data, s):
-        """API 데이터를 JSON 파일에 저장합니다."""
-        file_path = os.path.join(self.po_path, f"{lane}.json")
-        lane_data = {}
-        if os.path.exists(file_path):
-            with open(file_path, "r", encoding="utf-8") as f:
-                try: lane_data = json.load(f)
-                except json.JSONDecodeError: pass
-
-        lane_data[champion] = {}
-        for region in self.data_manager.REGION_MAP.values():
-            y_data = api_data.get(f"po_rank_{region}")
-            if y_data is not None:
-                lane_data[champion][region] = {
-                    "time": api_data["time"].tolist(),
-                    "y": y_data.tolist(),
-                    "s": s
-                }
-        
-        with open(file_path, "w", encoding="utf-8") as f:
-            json.dump(lane_data, f, ensure_ascii=False, indent=2)
-        print(f"✅ '{champion}'의 PO 데이터를 '{file_path}'에 저장했습니다.")
-        return lane_data[champion]
-
-    def _calculate_po_at_time(self, time_val, po_data):
-        """주어진 시간 값에 대한 PO를 계산합니다."""
-        if hasattr(time_val, 'cpu'): time_val = time_val.cpu().numpy()
-        time_val = float(time_val)
-        
-        output = {}
-        for region, data in po_data.items():
-            spline = UnivariateSpline(data["time"], data["y"], s=data["s"])
-            output[f'po_{region}'] = float(spline(time_val))
-        return output
-
-# ==============================================================================
-# 3. 데이터 로더 함수 (리팩토링된 버전)
-# ==============================================================================
-def load_player_data(data_manager, team, champion, pos_idx):
-    """
-    DataManager를 사용하여 플레이어의 숙련도 정보를 로드합니다.
-    (기존 load_player, load_mastery 통합)
-    """
-    player_name = find_player(data_manager, team, pos_idx)
-    if not player_name:
-        return {"Gamer": None, "game_gamer": PB_NEW, "wr_gamer": WR_NEW}
-        
-    mastery = data_manager.get_mastery_stats(team, player_name, champion)
+    # 결과 반환
     return {
-        "Gamer": player_name,
-        "game_gamer": mastery['game'],
-        "wr_gamer": mastery['wr'],
+        "blue_bans": team1_bans,
+        "blue_picks": team1_picks,
+        "red_bans": team2_bans,
+        "red_picks": team2_picks,
+        "gold_diff": gold_diff_data,
+        "B" : blue_team_name,
+        "R" : red_team_name
     }
 
-def _load_match_data(path):
-    """(내부 함수) Train/Test 매치 데이터 로딩 로직 통합"""
+def load_match_test(path="./data/Game_test_final/"):
     result = []
-    if not os.path.exists(path): return result
-    for match_dir in os.listdir(path):
-        match_path = os.path.join(path, match_dir)
-        game_files = [f for f in os.listdir(match_path) if not f.startswith('.')]
+    for match in os.listdir(path):
+        match_path = os.path.join(path, match)
         data_game = []
-        for file in game_files:
+        for file in os.listdir(match_path):
             file_path = os.path.join(match_path, file)
             try:
                 with open(file_path, "r", encoding="utf-8") as f:
                     game_data = json.load(f)
-                data_game.append({"game_name": file, "game_data": game_data})
+                data_game.append({
+                    "game_name": file,
+                    "game_data": game_data
+                })
             except Exception as e:
-                print(f"❌ '{file_path}' 로드 실패: {e}")
-        result.append({"match_idx": match_dir, "data_game": data_game})
+                print(f"❌ Failed to load '{file_path}':", e)
+        match_data = {
+            "match_idx": match,
+            "data_game": data_game
+        }
+        result.append(match_data)
     return result
 
 def load_match_train(path="./data/Game/"):
-    return _load_match_data(path)
+    result = []
+    for match in os.listdir(path):
+        match_path = os.path.join(path, match)
+        data_game = []
+        for file in os.listdir(match_path):
+            file_path = os.path.join(match_path, file)
+            try:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    game_data = json.load(f)
+                data_game.append({
+                    "game_name": file,
+                    "game_data": game_data
+                })
+            except Exception as e:
+                print(f"❌ Failed to load '{file_path}':", e)
+        match_data = {
+            "match_idx": match,
+            "data_game": data_game
+        }
+        result.append(match_data)
+    return result
 
-def load_match_test(path="./data/Game_test_final/"):
-    return _load_match_data(path)
+def load_league(champion_name,lane,path='./data/League/'):
+    result = {}
+    for region in os.listdir(path):
+        region_path = os.path.join(path, region)
+        file_path = os.path.join(region_path, f"{lane}.csv")
 
-# ==============================================================================
-# 4. 웹 스크래핑 모듈 (독립적으로 분리)
-# ==============================================================================
-class WebScraper:
-    def __init__(self, driver_path="chromedriver.exe"):
-        self.driver_path = driver_path
+        try:
+            df = pd.read_csv(file_path)
+        except Exception as e:
+            print(f"⚠️ {region} - 파일 읽기 실패: {e}")
+            continue
+        row = df[df['Champion'] == champion_name]
 
-    def scrape_gol_gg(self, game_url):
-        """gol.gg에서 게임 데이터를 스크래핑합니다."""
-        service = Service(self.driver_path)
-        driver = webdriver.Chrome(service=service)
-        driver.get(game_url)
-        time.sleep(5)
-        soup = BeautifulSoup(driver.page_source, "html.parser")
-        driver.quit()
-        
-        # ... (기존 load_match_golgg의 파싱 로직과 동일)
-        # ▶ 밴픽 정보 추출 ...
-        # ▶ 골드 차이 추출 ...
-        # ▶ 팀 이름 추출 ...
-        # 이 부분은 길어서 생략했지만, 원래 코드를 여기에 그대로 붙여넣으면 됩니다.
-        
-        # 임시 반환 값
-        return {"message": "Scraping logic should be placed here."}
+        if row.empty:
+            result[f'pb_lg_{region}'] = pb_new
+            result[f'wr_lg_{region}'] = wr_new
+        else:
+            result[f'pb_lg_{region}'] = row['PickBanRate'].values[0]
+            result[f'wr_lg_{region}'] = row['WinRate'].values[0]
+
+    return result
+
+def load_rank(champion_name, lane, path='./data/Rank/'):
+    result = {}
+    
+    for region_code in os.listdir(path):
+        if region_code not in region_map:
+            print(f"⚠️ Unknown region code: {region_code}, skipping.")
+            continue
+
+        region_name = region_map[region_code]
+        region_path = os.path.join(path, region_code)
+        file_path = os.path.join(region_path, f"{lane}.csv")
+
+        try:
+            df = pd.read_csv(file_path)
+        except Exception as e:
+            print(f"⚠️ {region_name} - 파일 읽기 실패: {e}")
+            continue
+
+        row = df[df['Champion'] == champion_name]
+
+        if row.empty:
+            result[f'pb_rank_{region_name}'] = pb_new
+            result[f'wr_rank_{region_name}'] = wr_new
+        else:
+            result[f'pb_rank_{region_name}'] = row['PickBanRate'].values[0]
+            result[f'wr_rank_{region_name}'] = row['WinRate'].values[0]
+
+    return result
+
+def load_mastery(champion_name,team,player,path='./data/Gamer/'):
+    file_path = path + team + '/' + player + '.csv' 
+    df = pd.read_csv(file_path)
+    row = df[df['Champion']==champion_name]
+    
+    if row.empty:
+        return pb_new, wr_new
+
+    game = row['Game'].values[0]
+    winrate = row['WinRate'].values[0]
+
+    return game, winrate
+
+def load_player(team,champion,pos_idx):
+    player_name = Find_player(team,pos_idx)
+    champs_idx = Find_champion_idx(champion)
+    
+    if champs_idx == None:
+        print(f"❌ '{champion}'에 해당하는 데이터 인덱스가 존재하지 않습니다.")
+    game,wr_player = load_mastery(champion,team,player_name)
+    
+    return {
+        "Gamer": player_name,
+        "game_gamer": game,
+        "wr_gamer": wr_player,
+    }
+
+def load_power_ps(champion_int,lane,version=123,tier=3):
+    result = {}
+    time_key = f'time'
+    times = np.arange(5.0, 36.0, 1.0) / 35.0
+    result[time_key] = times
+
+    for region_code, region_name in region_map.items():
+        url = f"https://lol.ps/api/champ/{champion_int}/graphs.json"
+        params = {
+            "region": region_code,
+            "version": version,
+            "tier": tier,
+            "lane": lane,
+            "range": "two_weeks"
+        }
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+            "Referer": f"https://lol.ps/api/champ/{champion_int}",
+            "Accept": "application/json"
+        }
+
+        try:
+            response = requests.get(url, params=params, headers=headers)
+            data = response.json()
+            timeline_winrates = data["data"]["timelineWinrates"]
+            timeline_winrates_float = np.array(list(map(float, timeline_winrates)))
+            result[f"po_rank_{region_name}"] = timeline_winrates_float / 100.0
+        except Exception as e:
+            print(f"❌ {region_name} - JSON decode error or missing data:", e)
+            result[f"po_rank_{region_name}"] = None  # 또는 np.zeros(n) 등 기본값으로 설정 가능
+
+    return result
+
+def save_power(champion_name, lane_num, data, s=0, save_dir="./json/po/"):
+    os.makedirs(save_dir, exist_ok=True)
+    file_path = os.path.join(save_dir, f"{lane_num}.json")
+
+    if os.path.exists(file_path):
+        with open(file_path, "r", encoding="utf-8") as f:
+            lane_data = json.load(f)
+    else:
+        lane_data = {}
+
+    lane_data[champion_name] = {}
+    for region in region_map.values():
+        y = data[f"po_rank_{region}"]
+        if y is not None:
+            spline = UnivariateSpline(data["time"], y, s=s)
+            # spline은 저장할 때 x, y 원본을 저장해서 나중에 재생성
+            lane_data[champion_name][region] = {
+                "time": data["time"].tolist(),
+                "y": y.tolist(),
+                "s": s
+            }
+
+    with open(file_path, "w", encoding="utf-8") as f:
+        json.dump(lane_data, f, ensure_ascii=False, indent=2)
+
+    print(f"✅ Saved spline for {champion_name} in {lane_num}")
+    
+    return lane_data[champion_name]
+
+def calc_po(time_value,po_data):
+    output = {}
+    # GPU 텐서인 경우 CPU로 이동 후 numpy로 변환
+    if hasattr(time_value, 'device') and time_value.device.type == 'cuda':
+        time_value = time_value.cpu().numpy()
+    elif hasattr(time_value, 'numpy'):
+        time_value = time_value.numpy()
+    else:
+        time_value = float(time_value)
+    
+    for region in regions:
+        po_key = f'{region}'
+        out_key = f'po_{region}'
+        reg_data = po_data[po_key]
+        spline = UnivariateSpline(reg_data["time"], reg_data["y"], s=reg_data["s"])
+        output[out_key] = float(spline(time_value))
+    
+    return output
+
+def load_power(time,champion,lane,version=123,tier=3,s=0):
+    data = Find_po(champion,lane)
+    if data is None:
+        champion_idx = Find_champion_idx(champion)
+
+        if champion_idx is None:
+            print(f"Champion {champion} not found in champion json.")
+            exit()
+    
+        print(f"Champion {champion} po is not found in po json.")
+        data_ps = load_power_ps(champion_idx,lane,version,tier)
+        data = save_power(champion,lane,data_ps,s)
+    
+    po_time = calc_po(time,data)
+
+    return po_time 

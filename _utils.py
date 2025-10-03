@@ -1,130 +1,159 @@
-# data_loader.py
-import os
 import json
-import torch
-from functools import lru_cache
+import math
+import torch 
 
-# --- 유틸리티성 딕셔너리 및 함수 ---
+import pandas as pd 
+import numpy as np 
+import os 
 
-POSITION_NAMES = {0: "Top", 1: "Jungle", 2: "Mid", 3: "ADC", 4: "Support"}
+from _Config import PLAYER_CACHE
 
-REPLACE_CHAMPION_NAMES_DICT = {
-    "TwistedFate": "Twisted Fate", "XinZhao": "Xin Zhao", "RenataGlasc": "Renata Glasc",
-    "MissFortune": "Miss Fortune", "LeeSin": "Lee Sin", "Dr.Mundo": "Dr. Mundo",
-    "JarvanIV": "Jarvan IV", "AurelionSol": "Aurelion Sol", "TahmKench": "Tahm Kench",
-    "KSante": "K'Sante", "Kaisa": "Kai'Sa", "Chogath": "Cho'Gath",
-    "KhaZix": "Kha'Zix", "Nunu": "Nunu & Willump"
-}
-
-def replace_champion_names(pick_list):
-    """챔피언 이름을 표준 이름으로 교체합니다."""
-    return [REPLACE_CHAMPION_NAMES_DICT.get(champ, champ) for champ in pick_list]
-
-# --- 데이터 관리 클래스 ---
-
-class DataManager:
-    """
-    프로젝트에서 사용하는 모든 JSON 데이터를 로드하고 캐싱하는 중앙 관리 클래스.
-    """
-    def __init__(self, base_path="./json/"):
-        self.base_path = base_path
-        self._champions = self._load_json("champions.json")
-        self._roster = self._load_json("roster.json")
-        self._elo = self._load_json("ELO.json")
-        self.player_selection_cache = {}
-
-    def _load_json(self, file_name):
-        """JSON 파일을 안전하게 로드합니다."""
-        path = os.path.join(self.base_path, file_name)
-        try:
-            with open(path, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except FileNotFoundError:
-            print(f"❌ Error: '{path}' 파일을 찾을 수 없습니다.")
-            return [] if isinstance(file_name, str) and 's' in file_name else {}
-        except json.JSONDecodeError:
-            print(f"❌ Error: '{path}' 파일의 형식이 잘못되었습니다.")
-            return [] if isinstance(file_name, str) and 's' in file_name else {}
-
-    @lru_cache(maxsize=128) # 같은 챔피언, 포지션 검색 시 캐시된 결과 바로 반환
-    def find_po_data(self, champion, pos_idx):
-        """특정 포지션의 챔피언 파워(PO) 데이터를 로드합니다."""
-        po_path = os.path.join(self.base_path, "po", f"{pos_idx}.json")
-        if not os.path.exists(po_path):
-            return None
-        
-        with open(po_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            
-        # 대소문자 구분 없이 챔피언 검색
-        for champ_name, champ_data in data.items():
-            if champ_name.lower() == champion.lower():
-                return champ_data
-        return None
-
-    def get_champions(self):
-        return self._champions
-
-    def get_roster(self):
-        return self._roster
-        
-    def get_elo(self):
-        return self._elo
-
-# --- 데이터 조회 함수 ---
-
-def find_champion_id(data_manager, champion_name_us):
-    """챔피언 영문 이름으로 고유 ID를 찾습니다."""
-    for champ in data_manager.get_champions():
-        if champ["nameUs"].lower() == champion_name_us.lower():
+def Find_champion_idx(name_us, file_path="./json/champions.json"):
+    with open(file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    
+    for champ in data:
+        if champ["nameUs"].lower() == name_us.lower():
             return champ["championId"]
-    return None
+    
+    return None  # 찾지 못했을 경우
 
-def find_player(data_manager, team_name, pos_idx, auto_select_index=0):
-    """
-    팀과 포지션에 맞는 선수를 찾습니다. 
-    여러 명일 경우, 캐시된 선택이나 자동 선택(기본 첫 번째)에 따라 반환합니다.
-    """
-    key = (team_name, pos_idx)
-    if key in data_manager.player_selection_cache:
-        return data_manager.player_selection_cache[key]
+def Find_player_test(team_name, pos_idx, file_path="./json/roster.json"):
+    position_names = {0: "Top", 1: "Jungle", 2: "Mid", 3: "ADC", 4: "Support"}
 
-    roster = data_manager.get_roster()
+    with open(file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    team_found = False
     selected_players = []
 
-    for team in roster:
+    for team in data:
         if team["team"] == team_name:
-            selected_players = [p["name"] for p in team.get("players", []) if p["position"] == pos_idx]
+            team_found = True
+            for player in team["players"]:
+                if player["position"] == pos_idx:
+                    selected_players.append(player["name"])
             break
-            
+
+    if not team_found:
+        print(f"Team '{team_name}' does not exist in the data.")
+        return None
+
     if not selected_players:
-        pos_name = POSITION_NAMES.get(pos_idx, 'Unknown')
-        print(f"⚠️ '{team_name}' 팀의 '{pos_name}' 포지션 선수를 찾을 수 없습니다.")
+        print(f"No players found in position '{position_names.get(pos_idx, 'Unknown')}' for team '{team_name}'.")
         return None
 
     if len(selected_players) == 1:
-        player = selected_players[0]
-    else:
-        # 여러 플레이어가 있을 경우, 대화형 입력 대신 첫 번째 플레이어를 기본으로 선택
-        print(f"ℹ️ '{team_name}' 팀 '{POSITION_NAMES.get(pos_idx)}' 포지션에 여러 선수가 등록되어 자동 선택합니다: {selected_players}")
-        player = selected_players[auto_select_index]
-        
-    data_manager.player_selection_cache[key] = player
-    return player
+        return selected_players[0]
 
-def find_elo(data_manager, match_idx, team_name):
-    """매치 ID와 팀 이름으로 ELO 점수를 찾습니다."""
-    elo_data = data_manager.get_elo()
-    match_id_str = str(match_idx)
+    print(f"Multiple players found for position '{position_names.get(pos_idx, 'Unknown')}' in team '{team_name}':")
+    for i, name in enumerate(selected_players):
+        print(f"{i}. {name}")
 
-    for match_data in elo_data:
-        if match_data.get("Match") == match_id_str:
-            for team_elo_map in match_data.get("ELO", []):
-                if team_name in team_elo_map:
-                    elo = team_elo_map[team_name]
-                    return torch.tensor([elo], dtype=torch.float32).view(-1, 1)
-            print(f"⚠️ '{match_id_str}' 매치에서 '{team_name}' 팀의 ELO를 찾을 수 없습니다.")
-            return None
-            
-    print(f"❌ Match ID '{match_id_str}'를 찾을 수 없습니다.")
+    while True:
+        choice = input("Please enter the number of the player you want to select: ")
+        if choice.isdigit():
+            choice = int(choice)
+            if 0 <= choice < len(selected_players):
+                return selected_players[choice]
+        print("Invalid input. Please try again.")
+
+def Find_player(team_name, pos_idx, file_path="./json/roster.json"):
+    
+    position_names = {0: "Top", 1: "Jungle", 2: "Mid", 3: "ADC", 4: "Support"}
+    key = (team_name, pos_idx)
+
+    # 이미 선택된 플레이어가 있으면 캐시에서 반환
+    if key in PLAYER_CACHE:
+        return PLAYER_CACHE[key]
+
+    # 파일 로드
+    with open(file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    team_found = False
+    selected_players = []
+
+    for team in data:
+        if team["team"] == team_name:
+            team_found = True
+            for player in team["players"]:
+                if player["position"] == pos_idx:
+                    selected_players.append(player["name"])
+            break
+
+    if not team_found:
+        print(f"Team '{team_name}' does not exist in the data.")
+        return None
+
+    if not selected_players:
+        print(f"No players found in position '{position_names.get(pos_idx, 'Unknown')}' for team '{team_name}'.")
+        return None
+
+    if len(selected_players) == 1:
+        PLAYER_CACHE[key] = selected_players[0]
+        return selected_players[0]
+
+    # 플레이어 선택 - 최초 1회
+    print(f"Multiple players found for position '{position_names.get(pos_idx, 'Unknown')}' in team '{team_name}':")
+    for i, name in enumerate(selected_players):
+        print(f"{i}. {name}")
+
+    while True:
+        choice = input("Please enter the number of the player you want to select: ")
+        if choice.isdigit():
+            choice = int(choice)
+            if 0 <= choice < len(selected_players):
+                PLAYER_CACHE[key] = selected_players[choice]  # 선택 저장
+                return selected_players[choice]
+        print("Invalid input. Please try again.")
+
+def Find_ELO(match_idx, team, file_path="./json/ELO.json"):
+    with open(file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    
+    for match_data in data:
+        if match_data["Match"] == str(match_idx):
+            for team_data in match_data["ELO"]:
+                if team in team_data:
+                    # [수정] 텐서 대신 float 값을 바로 반환
+                    return float(team_data[team])
+
+    # [수정] 값을 찾지 못하면 에러 방지를 위해 기본 ELO 값을 반환
+    print(f"⚠️ ELO not found for Match '{match_idx}', Team '{team}'. Returning default 1500.0")
+    return 1500.0
+
+def Find_po(champion,pos_idx,file_path="./json/po/"):
+    file_path_line = file_path + f"{pos_idx}.json"
+    
+    if not os.path.exists(file_path_line):
+        return None
+    
+    with open(file_path_line, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    
+    for champ_name in data.keys():
+        if champ_name.lower() == champion.lower():
+            return data[champ_name]  # 챔피언 데이터 전체 반환
+    
     return None
+
+def replace_champion_names(pick_list):
+    replace_dict = {
+    "TwistedFate": "Twisted Fate",
+    "XinZhao": "Xin Zhao",
+    "RenataGlasc": "Renata Glasc",
+    "MissFortune": "Miss Fortune",
+    "LeeSin" : "Lee Sin",
+    "Dr.Mundo" : "Dr. Mundo",
+    "JarvanIV" : "Jarvan IV",
+    "AurelionSol": "Aurelion Sol",
+    "TahmKench": "Tahm Kench",
+    "KSante": "K'Sante",
+    "Kaisa": "Kai'Sa",
+    "Chogath":"Cho'Gath",
+    "KhaZix" : "Kha'Zix",
+    "Nunu" : "Nunu & Willump"
+    }
+    return [replace_dict.get(champ, champ) for champ in pick_list]
+
