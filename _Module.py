@@ -1,7 +1,6 @@
 # modules.py
 import torch
 import torch.nn as nn
-from _Load import load_player, load_power
 from config import REGIONS, LEAGUES, CPU_DEVICE
 
 class ChampionStatsLoader(nn.Module):

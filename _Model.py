@@ -4,11 +4,11 @@ import torch.nn as nn
 
 # --- Core Model Components (from _Model.py) ---
 # It's recommended to have these in a separate file like `components.py`
-from _Model import MLP, Encoder_champ, Encoder_player, Encoder_region, Encoder_position, Encoder_ELO
+from _Compo import MLP, Encoder_champ, Encoder_player, Encoder_region, Encoder_position, Encoder_ELO
 
 # --- Refactored Data Modules ---
 # These loaders now rely on the DataManager/PowerManager
-from _Module import ChampionStatsLoader, PlayerStatsLoader, PowerOverTimeLoader 
+from _Module import ChampionStatsLoader, PlayerStatsLoader, PowerOverTimeLoader
 
 # --- Project-wide Settings ---
 from config import REGIONS, LEAGUES
