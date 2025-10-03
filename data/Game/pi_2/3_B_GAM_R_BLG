@@ -1,0 +1,59 @@
+{
+  "blue_bans": [
+    "Kalista",
+    "Twisted Fate",
+    "Sejuani",
+    "Ryze",
+    "Jax"
+  ],
+  "blue_picks": [
+    "Yorick",
+    "Jarvan IV",
+    "Viktor",
+    "Miss Fortune",
+    "Neeko"
+  ],
+  "red_bans": [
+    "Nocturne",
+    "Gwen",
+    "Pantheon",
+    "Orianna",
+    "Akali"
+  ],
+  "red_picks": [
+    "Renekton",
+    "Xin Zhao",
+    "Aurora",
+    "Caitlyn",
+    "Karma"
+  ],
+  "gold_diff": [
+    0,
+    0,
+    -41,
+    -1088,
+    -1209,
+    -1482,
+    -2027,
+    -2889,
+    -3072,
+    -3158,
+    -3899,
+    -4486,
+    -5265,
+    -6300,
+    -5361,
+    -6718,
+    -8233,
+    -7075,
+    -7331,
+    -9931,
+    -10914,
+    -11657,
+    -11766,
+    -11183,
+    -11365,
+    -12366,
+    -15430
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "blue_bans": [
+    "Yone",
+    "Pantheon",
+    "Twisted Fate",
+    "Gnar",
+    "Gwen"
+  ],
+  "blue_picks": [
+    "Aatrox",
+    "Xin Zhao",
+    "Taliyah",
+    "Nilah",
+    "Rakan"
+  ],
+  "red_bans": [
+    "Varus",
+    "Miss Fortune",
+    "Jax",
+    "Xayah",
+    "Alistar"
+  ],
+  "red_picks": [
+    "Warwick",
+    "Vi",
+    "Ahri",
+    "Kaisa",
+    "Poppy"
+  ],
+  "gold_diff": [
+    0,
+    0,
+    -111,
+    -167,
+    -275,
+    -283,
+    -338,
+    -244,
+    -427,
+    -296,
+    -166,
+    -987,
+    -1350,
+    -1506,
+    -1157,
+    -663,
+    -117,
+    396,
+    808,
+    2252,
+    2987,
+    2550,
+    2126,
+    1388,
+    1044,
+    1121,
+    2218,
+    4013,
+    7945,
+    7995
+  ]
+}

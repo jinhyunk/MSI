@@ -1,0 +1,61 @@
+{
+    "blue_bans": [
+        "Jayce",
+        "Pantheon",
+        "KSante",
+        "Lucian",
+        "Neeko"
+    ],
+    "blue_picks": [
+        "Irelia",
+        "Poppy",
+        "Taliyah",
+        "Xayah",
+        "Rell"
+    ],
+    "red_bans": [
+        "Gwen",
+        "Vi",
+        "Maokai",
+        "Varus",
+        "Kalista"
+    ],
+    "red_picks": [
+        "Yorick",
+        "Nocturne",
+        "Aurora",
+        "Kaisa",
+        "Rakan"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        111,
+        216,
+        -135,
+        541,
+        390,
+        1081,
+        1249,
+        795,
+        710,
+        469,
+        499,
+        457,
+        984,
+        1632,
+        879,
+        3266,
+        3195,
+        5361,
+        3972,
+        5253,
+        5075,
+        7043,
+        6966,
+        7584,
+        7555,
+        9852,
+        11058
+    ]
+}

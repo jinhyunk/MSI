@@ -1,0 +1,65 @@
+{
+  "blue_bans": [
+    "Cassiopeia",
+    "Azir",
+    "Orianna",
+    "Gragas",
+    "Twisted Fate"
+  ],
+  "blue_picks": [
+    "Rumble",
+    "Nocturne",
+    "Galio",
+    "Ashe",
+    "Shen"
+  ],
+  "red_bans": [
+    "Nami",
+    "Skarner",
+    "Yone",
+    "Caitlyn",
+    "Braum"
+  ],
+  "red_picks": [
+    "Urgot",
+    "Lee Sin",
+    "Zilean",
+    "Lucian",
+    "Leona"
+  ],
+  "gold_diff": [
+    0,
+    20,
+    39,
+    226,
+    398,
+    575,
+    546,
+    839,
+    1182,
+    1833,
+    1388,
+    2019,
+    3546,
+    4311,
+    4557,
+    5036,
+    5316,
+    6953,
+    8146,
+    8470,
+    8249,
+    9103,
+    10513,
+    11221,
+    10407,
+    10060,
+    10854,
+    13660,
+    15393,
+    15071,
+    15742,
+    16948,
+    19499
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "blue_bans": [
+    "Cassiopeia",
+    "Azir",
+    "Galio",
+    "Bard",
+    "TahmKench"
+  ],
+  "blue_picks": [
+    "Ambessa",
+    "Vi",
+    "Ahri",
+    "Kaisa",
+    "Nautilus"
+  ],
+  "red_bans": [
+    "Varus",
+    "Twisted Fate",
+    "Rumble",
+    "Ziggs",
+    "Caitlyn"
+  ],
+  "red_picks": [
+    "Gangplank",
+    "Poppy",
+    "Ryze",
+    "Senna",
+    "Alistar"
+  ],
+  "gold_diff": [
+    0,
+    0,
+    -9,
+    201,
+    28,
+    50,
+    678,
+    410,
+    909,
+    717,
+    754,
+    1048,
+    1044,
+    1608,
+    3191,
+    3207,
+    2362,
+    2551,
+    2819,
+    2897,
+    3628,
+    3832,
+    3833,
+    3494,
+    4081,
+    4250,
+    4473,
+    6691,
+    9628,
+    8834,
+    9255,
+    9489,
+    9215,
+    9264,
+    8892,
+    8271,
+    3403,
+    3801,
+    4388
+  ]
+}

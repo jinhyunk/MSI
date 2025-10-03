@@ -1,0 +1,63 @@
+{
+  "blue_bans": [
+    "Taliyah",
+    "Neeko",
+    "Jarvan IV",
+    "Rakan",
+    "Alistar"
+  ],
+  "blue_picks": [
+    "Renekton",
+    "Lee Sin",
+    "Ryze",
+    "Lucian",
+    "Braum"
+  ],
+  "red_bans": [
+    "Pantheon",
+    "Varus",
+    "Azir",
+    "Nocturne",
+    "Jax"
+  ],
+  "red_picks": [
+    "Yorick",
+    "Trundle",
+    "Orianna",
+    "Ezreal",
+    "Karma"
+  ],
+  "gold_diff": [
+    0,
+    5,
+    -2,
+    -141,
+    -302,
+    147,
+    284,
+    1038,
+    1039,
+    1057,
+    1536,
+    1618,
+    2225,
+    2126,
+    2590,
+    2615,
+    4602,
+    4359,
+    4148,
+    4047,
+    4059,
+    5386,
+    5485,
+    4100,
+    5608,
+    5785,
+    6768,
+    8518,
+    8938,
+    11965,
+    14180
+  ]
+}

@@ -1,0 +1,63 @@
+{
+    "blue_bans": [
+        "Taliyah",
+        "Yorick",
+        "Varus",
+        "Nautilus",
+        "Rell"
+    ],
+    "blue_picks": [
+        "Gwen",
+        "Zed",
+        "Galio",
+        "Senna",
+        "Thresh"
+    ],
+    "red_bans": [
+        "Twisted Fate",
+        "Xayah",
+        "Azir",
+        "Jhin",
+        "Miss Fortune"
+    ],
+    "red_picks": [
+        "Gragas",
+        "Trundle",
+        "Swain",
+        "Caitlyn",
+        "Braum"
+    ],
+    "gold_diff": [
+        0,
+        0,
+        -49,
+        -453,
+        -388,
+        -747,
+        -995,
+        -959,
+        -812,
+        -902,
+        -1141,
+        -1214,
+        -1448,
+        -1761,
+        -1527,
+        -1713,
+        -1749,
+        -2864,
+        -2569,
+        -3220,
+        -3117,
+        -3041,
+        -2850,
+        -3554,
+        -3243,
+        -5483,
+        -5266,
+        -5765,
+        -6127,
+        -5337,
+        -8006
+    ]
+}

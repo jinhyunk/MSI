@@ -1,0 +1,64 @@
+{
+  "blue_bans": [
+    "Miss Fortune",
+    "Aurora",
+    "Smolder",
+    "Ambessa",
+    "Lee Sin"
+  ],
+  "blue_picks": [
+    "Gragas",
+    "Jarvan IV",
+    "Yone",
+    "Senna",
+    "Braum"
+  ],
+  "red_bans": [
+    "Twisted Fate",
+    "Azir",
+    "Caitlyn",
+    "Camille",
+    "Sejuani"
+  ],
+  "red_picks": [
+    "Gnar",
+    "Lillia",
+    "Jayce",
+    "Ziggs",
+    "Leona"
+  ],
+  "gold_diff": [
+    0,
+    -5,
+    -64,
+    34,
+    -8,
+    -451,
+    -123,
+    -355,
+    667,
+    619,
+    832,
+    839,
+    1081,
+    1476,
+    1599,
+    1700,
+    1570,
+    1698,
+    1554,
+    3070,
+    4045,
+    3754,
+    3903,
+    4693,
+    5934,
+    6519,
+    7161,
+    7226,
+    10617,
+    11787,
+    15068,
+    16088
+  ]
+}

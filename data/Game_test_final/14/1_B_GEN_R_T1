@@ -1,0 +1,68 @@
+{
+  "blue_bans": [
+    "Neeko",
+    "Azir",
+    "Viktor",
+    "Senna",
+    "Rakan"
+  ],
+  "blue_picks": [
+    "Jax",
+    "Sejuani",
+    "Taliyah",
+    "Lucian",
+    "Braum"
+  ],
+  "red_bans": [
+    "Pantheon",
+    "Vi",
+    "Varus",
+    "Xin Zhao",
+    "Wukong"
+  ],
+  "red_picks": [
+    "Gwen",
+    "Jarvan IV",
+    "Orianna",
+    "Jhin",
+    "Alistar"
+  ],
+  "gold_diff": [
+    0,
+    1,
+    86,
+    282,
+    350,
+    101,
+    334,
+    141,
+    389,
+    295,
+    496,
+    269,
+    421,
+    73,
+    -561,
+    -476,
+    -396,
+    -898,
+    -1067,
+    -1068,
+    -1717,
+    -1676,
+    -922,
+    -892,
+    -1632,
+    -2848,
+    -3840,
+    -4517,
+    -5164,
+    -4394,
+    -4353,
+    -6331,
+    -7810,
+    -7754,
+    -9611,
+    -12271
+  ]
+}
